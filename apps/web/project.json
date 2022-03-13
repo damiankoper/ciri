@@ -1,0 +1,29 @@
+{
+  "root": "apps/web",
+  "projectType": "application",
+  "sourceRoot": "apps/web/src",
+  "targets": {
+    "build": {
+      "executor": "@wanews/nx-vite:build",
+      "options": {}
+    },
+    "serve": {
+      "executor": "@wanews/nx-vite:serve",
+      "options": {}
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/web/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx vitest --run",
+        "cwd": "apps/web"
+      }
+    }
+  },
+  "tags": []
+}
