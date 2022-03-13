@@ -8,8 +8,11 @@
       "options": {}
     },
     "serve": {
-      "executor": "@wanews/nx-vite:serve",
-      "options": {}
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx vitest --run",
+        "cwd": "apps/web"
+      }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",

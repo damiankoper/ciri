@@ -1,0 +1,43 @@
+{
+  "root": "apps/core",
+  "projectType": "application",
+  "sourceRoot": "apps/core/actions",
+  "targets": {
+    "visualize": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "pipenv run rasa visualize",
+        "cwd": "apps/core"
+      }
+    },
+    "shell": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "pipenv run rasa shell",
+        "cwd": "apps/core"
+      }
+    },
+    "train": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "pipenv run rasa train",
+        "cwd": "apps/core"
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "pipenv run rasa run",
+        "cwd": "apps/core"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "pipenv run rasa test",
+        "cwd": "apps/core"
+      }
+    }
+  },
+  "tags": []
+}

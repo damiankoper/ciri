@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@nrwl/cli": "13.8.8",
+    "@nrwl/devkit": "13.8.8",
     "@nrwl/tao": "13.8.8",
     "@nrwl/workspace": "13.8.8",
     "@types/node": "16.11.7",
