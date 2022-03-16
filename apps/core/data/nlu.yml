@@ -66,7 +66,7 @@ nlu:
     - Could you tell me what time it is in [Berlin](location), please?
     - Could you tell me the time in [New York](location), please?
 
-- intent: day
+- intent: day_today
   examples: |
     - What day is it today?
     - What day is today?
