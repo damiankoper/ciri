@@ -1,0 +1,38 @@
+@startuml flow
+|Google Chrome|
+start
+split
+:listen for speech;
+:transform speech to text;
+split again
+:capture text from input field;
+end split
+:send text to backend
+and display sent text
+in message window;
+
+|Backend|
+:detect intent from sent text;
+if (intent has params) then (yes)
+:detect intent parameters;
+
+:perform intent action;
+
+|External APIs|
+:fetch intent response data;
+endif
+
+
+|Backend|
+:compose intent response text;
+:send response text to the user;
+
+|Google Chrome|
+:handle response;
+:display response text in message window;
+:transform response text to speech and play it;
+
+
+stop
+
+@enduml
