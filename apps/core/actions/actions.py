@@ -40,7 +40,7 @@ class ActionDayToday(Action):
 
     return []
 
-class ActionDayTommorow(Action):
+class ActionDayTomorrow(Action):
   def name(self) -> Text:
     return "action_day_tomorrow"
 
@@ -49,7 +49,7 @@ class ActionDayTommorow(Action):
     domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     day = (datetime.today() + timedelta(days=1)).strftime('%A')
-    response = f"Tommorow will be {day}."
+    response = f"Tomorrow will be {day}."
     dispatcher.utter_message(text=response)
 
     return []

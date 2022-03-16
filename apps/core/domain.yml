@@ -8,7 +8,7 @@ intents:
   - time_default_location
   - time_custom_location
   - day_today
-  - day_tommorow
+  - day_tomorrow
   - date_and_time
   - bot_challenge
 
@@ -18,6 +18,9 @@ responses:
 
   utter_subjects:
   - text: "Subjects available: datetime, finances"
+
+  utter_continue:
+  - text: "Do you want to ask another question?"
 
   utter_goodbye:
   - text: "Bye"
