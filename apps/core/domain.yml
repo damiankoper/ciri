@@ -5,8 +5,11 @@ intents:
   - goodbye
   - affirm
   - deny
-  - mood_great
-  - mood_unhappy
+  - time_default_location
+  - time_custom_location
+  - day_today
+  - day_tommorow
+  - date_and_time
   - bot_challenge
 
 responses:

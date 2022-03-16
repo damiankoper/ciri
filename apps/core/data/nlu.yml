@@ -49,39 +49,44 @@ nlu:
     - no way
     - not really
 
-- intent: mood_great
+- intent: time_default_location
   examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
+    - What time is it?
+    - Could you tell me what time it is?
+    - Could you tell me the time?
+    - Could you tell me what time it is, please?
+    - Could you tell me the time, please?
+    - Tell me the current time.
 
-- intent: mood_unhappy
+- intent: time_custom_location
   examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
+    - What time is it in [London](location) now?
+    - Tell me the time in [Paris](location).
+    - Could you tell me the time in [Warsaw](location)?
+    - Could you tell me what time it is in [Berlin](location), please?
+    - Could you tell me the time in [New York](location), please?
+
+- intent: day
+  examples: |
+    - What day is it today?
+    - What day is today?
+    - What day is it?
+    - What day of the week, is it?
+    - What's today?
+    - Tell me name of the current day of the week.
+
+- intent: day_tommorow
+  examples: |
+    - What will the day of the week be tomorrow?
+    - Tell me, which day of the week will be tomorrow.
+
+- intent: date_and_time
+  examples: |
+    - What date and time is it?
+    - What time and date is it?
+    - Tell me date and time.
+    - Tell me time and date.
+
 
 - intent: bot_challenge
   examples: |
