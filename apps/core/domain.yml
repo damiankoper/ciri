@@ -35,6 +35,14 @@ actions:
  - action_date_and_time
  - action_time_custom_location
 
+slots:
+  location:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: location
+
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

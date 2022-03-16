@@ -9,6 +9,9 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+import requests
+from timezonefinder import TimezoneFinder
+import pytz
 
 class ActionTimeDefaultLocation(Action):
 
@@ -76,8 +79,21 @@ class ActionTimeCustomLocation(Action):
     tracker: Tracker,
     domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    day_and_time = datetime.now().strftime('%H:%M, %A %d %B %Y')
-    response = f"It is now {day_and_time}."
+    user_choice = tracker.get_slot("location")
+    response = requests.get(f"https://nominatim.openstreetmap.org/search.php?q={user_choice}&format=jsonv2")
+    data = response.json()
+
+    if not len(data):
+      dispatcher.utter_message(text="I don't know such city.")
+      return []
+
+    lon = data[0]['lon']
+    lat = data[0]['lat']
+
+    tf = TimezoneFinder()
+    zone_name = tf.timezone_at(lng=lon, lat=lat)
+    response = datetime.datetime.now(pytz.timezone(zone_name)).strftime('%H:%M, %A %d %B %Y')
+
     dispatcher.utter_message(text=response)
 
     return []
