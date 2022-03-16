@@ -27,6 +27,9 @@ responses:
 
 actions:
  - action_time_default_location
+ - action_day_today
+ - action_day_tomorrow
+ - action_date_and_time
 
 session_config:
   session_expiration_time: 60

@@ -9,3 +9,18 @@ stories:
   - action: utter_subjects
   - intent: time_default_location
   - action: action_time_default_location
+
+- story: day today path
+  steps:
+    - intent: day_today
+    - action: action_day_today
+
+- story: day tommorow path
+  steps:
+    - intent: day_tommorow
+    - action: action_day_tommorow
+
+- story: day tommorow path
+  steps:
+    - intent: date_and_time
+    - action: action_date_and_time
