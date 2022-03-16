@@ -14,10 +14,10 @@ intents:
 
 responses:
   utter_welcome:
-  - text: "Hi, it's Ciri, your reliable source of information. Ask me something"
+  - text: "Hi, it's Ciri, your reliable source of information. Ask me something."
 
   utter_subjects:
-  - text: "Subjects available: datetime, finances"
+  - text: "Subjects available: datetime, finances."
 
   utter_continue:
   - text: "Do you want to ask another question?"
@@ -33,6 +33,7 @@ actions:
  - action_day_today
  - action_day_tomorrow
  - action_date_and_time
+ - action_time_custom_location
 
 session_config:
   session_expiration_time: 60

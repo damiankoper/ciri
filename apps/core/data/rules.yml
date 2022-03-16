@@ -2,6 +2,12 @@ version: "3.0"
 
 rules:
 
+- rule: Greet and present subjects
+  steps:
+  - intent: greet
+  - action: utter_welcome
+  - action: utter_subjects
+
 - rule: Say goodbye anytime the user says goodbye
   steps:
   - intent: goodbye

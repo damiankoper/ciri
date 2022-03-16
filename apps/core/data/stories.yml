@@ -4,10 +4,6 @@ stories:
 
 - story: time default location path
   steps:
-  # TODO zastanowic sie czy sie witamy
-  # - intent: greet
-  # - action: utter_welcome
-  # - action: utter_subjects
   - intent: time_default_location
   - action: action_time_default_location
 
@@ -25,3 +21,8 @@ stories:
   steps:
     - intent: date_and_time
     - action: action_date_and_time
+
+- story: time_custom_location
+  steps:
+    - intent: time_custom_location
+    - action: action_time_custom_location

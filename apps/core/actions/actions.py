@@ -67,3 +67,17 @@ class ActionDateAndTime(Action):
     dispatcher.utter_message(text=response)
 
     return []
+
+class ActionTimeCustomLocation(Action):
+  def name(self) -> Text:
+    return "action_time_custom_location"
+
+  def run(self, dispatcher: CollectingDispatcher,
+    tracker: Tracker,
+    domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+    day_and_time = datetime.now().strftime('%H:%M, %A %d %B %Y')
+    response = f"It is now {day_and_time}."
+    dispatcher.utter_message(text=response)
+
+    return []
