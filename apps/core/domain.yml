@@ -35,6 +35,10 @@ actions:
  - action_date_and_time
  - action_time_custom_location
 
+
+entities:
+  - location
+
 slots:
   location:
     type: text

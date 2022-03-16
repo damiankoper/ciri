@@ -80,6 +80,7 @@ class ActionTimeCustomLocation(Action):
     domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
     user_choice = tracker.get_slot("location")
+    print(user_choice)
     response = requests.get(f"https://nominatim.openstreetmap.org/search.php?q={user_choice}&format=jsonv2")
     data = response.json()
 
@@ -87,12 +88,12 @@ class ActionTimeCustomLocation(Action):
       dispatcher.utter_message(text="I don't know such city.")
       return []
 
-    lon = data[0]['lon']
-    lat = data[0]['lat']
+    lon = float(data[0]['lon'])
+    lat = float(data[0]['lat'])
 
     tf = TimezoneFinder()
     zone_name = tf.timezone_at(lng=lon, lat=lat)
-    response = datetime.datetime.now(pytz.timezone(zone_name)).strftime('%H:%M, %A %d %B %Y')
+    response = datetime.now(pytz.timezone(zone_name)).strftime('%H:%M, %A %d %B %Y')
 
     dispatcher.utter_message(text=response)
 
