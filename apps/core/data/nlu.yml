@@ -60,11 +60,11 @@ nlu:
 
 - intent: time_custom_location
   examples: |
-    - What time is it in [London](location) now?
-    - Tell me the time in [Paris](location).
-    - Could you tell me the time in [Warsaw](location)?
-    - Could you tell me what time it is in [Berlin](location), please?
-    - Could you tell me the time in [New York](location), please?
+    - What time is it in London now?
+    - Tell me the time in Paris.
+    - Could you tell me the time in Warsaw?
+    - Could you tell me what time it is in Berlin, please?
+    - Could you tell me the time in New York, please?
 
 - intent: day_today
   examples: |

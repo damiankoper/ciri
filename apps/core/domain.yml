@@ -37,14 +37,7 @@ actions:
 
 
 entities:
-  - location
-
-slots:
-  location:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: location
+  - GPE
 
 
 session_config:

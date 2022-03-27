@@ -108,4 +108,4 @@ class ActionTimeCustomLocation(Action):
 
         dispatcher.utter_message(text=response)
 
-        return [SlotSet("location", None)]
+        return []
