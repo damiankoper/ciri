@@ -14,89 +14,98 @@ import requests
 from timezonefinder import TimezoneFinder
 import pytz
 
+
 class ActionTimeDefaultLocation(Action):
 
-  def name(self) -> Text:
-    return "action_time_default_location"
+    def name(self) -> Text:
+        return "action_time_default_location"
 
-  def run(self, dispatcher: CollectingDispatcher,
-    tracker: Tracker,
-    domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-    now = datetime.now()
-    current_time = now.strftime("%H:%M")
-    response = f"Current local time is {current_time}."
-    dispatcher.utter_message(text=response)
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        now = datetime.now()
+        current_time = now.strftime("%H:%M")
+        response = f"Current local time is {current_time}."
+        dispatcher.utter_message(text=response)
 
-    return []
+        return []
 
 
 class ActionDayToday(Action):
-  def name(self) -> Text:
-    return "action_day_today"
+    def name(self) -> Text:
+        return "action_day_today"
 
-  def run(self, dispatcher: CollectingDispatcher,
-    tracker: Tracker,
-    domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    day = datetime.today().strftime('%A')
-    response = f"Today is {day}."
-    dispatcher.utter_message(text=response)
+        day = datetime.today().strftime('%A')
+        response = f"Today is {day}."
+        dispatcher.utter_message(text=response)
 
-    return []
+        return []
+
 
 class ActionDayTomorrow(Action):
-  def name(self) -> Text:
-    return "action_day_tomorrow"
+    def name(self) -> Text:
+        return "action_day_tomorrow"
 
-  def run(self, dispatcher: CollectingDispatcher,
-    tracker: Tracker,
-    domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    day = (datetime.today() + timedelta(days=1)).strftime('%A')
-    response = f"Tomorrow will be {day}."
-    dispatcher.utter_message(text=response)
+        day = (datetime.today() + timedelta(days=1)).strftime('%A')
+        response = f"Tomorrow will be {day}."
+        dispatcher.utter_message(text=response)
 
-    return []
+        return []
+
 
 class ActionDateAndTime(Action):
-  def name(self) -> Text:
-    return "action_date_and_time"
+    def name(self) -> Text:
+        return "action_date_and_time"
 
-  def run(self, dispatcher: CollectingDispatcher,
-    tracker: Tracker,
-    domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-    day_and_time = datetime.now().strftime('%H:%M, %A %d %B %Y')
-    response = f"It is now {day_and_time}."
-    dispatcher.utter_message(text=response)
+        day_and_time = datetime.now().strftime('%H:%M, %A %d %B %Y')
+        response = f"It is now {day_and_time}."
+        dispatcher.utter_message(text=response)
 
-    return []
+        return []
+
 
 class ActionTimeCustomLocation(Action):
-  def name(self) -> Text:
-    return "action_time_custom_location"
+    def name(self) -> Text:
+        return "action_time_custom_location"
 
-  def run(self, dispatcher: CollectingDispatcher,
-    tracker: Tracker,
-    domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        entities = tracker.latest_message['entities']
+        print(list(map(lambda x: x['value'], entities)))
+        gpe_only = list(filter(lambda x: x['entity'] == 'GPE', entities))
 
-    user_choice = tracker.get_slot("location")
-    print(user_choice)
-    response = requests.get(f"https://nominatim.openstreetmap.org/search.php?q={user_choice}&format=jsonv2")
-    data = response.json()
+        data = []
+        if len(gpe_only) > 0:
+            user_choice = gpe_only[0]['value']
+            # print(user_choice, tracker.latest_message)
+            response = requests.get(
+                f"https://nominatim.openstreetmap.org/search.php?q={user_choice}&format=jsonv2")
+            data = response.json()
+        if not len(data):
+            dispatcher.utter_message(text="I don't know such city.")
+            return []
 
-    if not len(data):
-      dispatcher.utter_message(text="I don't know such city.")
-      return []
+        lon = float(data[0]['lon'])
+        lat = float(data[0]['lat'])
 
-    lon = float(data[0]['lon'])
-    lat = float(data[0]['lat'])
+        tf = TimezoneFinder()
+        zone_name = tf.timezone_at(lng=lon, lat=lat)
+        response = datetime.now(pytz.timezone(
+            zone_name)).strftime('%H:%M, %A %d %B %Y')
 
-    tf = TimezoneFinder()
-    zone_name = tf.timezone_at(lng=lon, lat=lat)
-    response = datetime.now(pytz.timezone(zone_name)).strftime('%H:%M, %A %d %B %Y')
+        dispatcher.utter_message(text=response)
 
-    dispatcher.utter_message(text=response)
-
-    return [SlotSet("location", None)]
-
+        return [SlotSet("location", None)]
