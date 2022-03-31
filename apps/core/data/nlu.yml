@@ -49,6 +49,13 @@ nlu:
     - no way
     - not really
 
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
 - intent: time_default_location
   examples: |
     - What time is it?
@@ -95,9 +102,10 @@ nlu:
     - Tell me date and time.
     - Tell me time and date.
 
-- intent: bot_challenge
+- intent: stock_price
   examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
+    - Tell me the apple stock price
+    - Tell me the Apple Inc. stock price
+    - What is the current price of microsoft stocks?
+    - Could you tell me the current price of amazon stocks?
+    - Tell me the dell stock price.

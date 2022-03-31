@@ -6,6 +6,7 @@
 
 from datetime import datetime, timedelta
 from typing import Any, Text, Dict, List
+import urllib.parse
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
@@ -13,6 +14,7 @@ import requests
 from timezonefinder import TimezoneFinder
 import pytz
 from word2number import w2n
+import os
 
 
 class ActionTimeDefaultLocation(Action):
@@ -125,4 +127,31 @@ class ActionTimeCustomLocation(Action):
 
         dispatcher.utter_message(text=response)
 
+        return []
+
+
+class ActionStockPrice(Action):
+    def name(self) -> Text:
+        return 'action_stock_price'
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        entities = tracker.latest_message['entities']
+        if len(entities) == 0:
+            dispatcher.utter_message(text="Company name not detected")
+            return []
+
+        API_KEY = os.environ.get('FINNHUB_API_KEY')
+        company_name = entities[0]['value'].replace(' ', '')
+        response = requests.get(
+            f'https://finnhub.io/api/v1/search?q={company_name}&token={API_KEY}')
+
+        if response.status_code != 200:
+            dispatcher.utter_message(text="Company name not detected")
+            return []
+
+        # TODO - fix lowercase symbols handling
+        # TODO - enhance symbol lookup
+        print(response.json()['result'][0]['symbol'])
         return []

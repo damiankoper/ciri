@@ -5,12 +5,13 @@ intents:
   - goodbye
   - affirm
   - deny
+  - bot_challenge
   - day_today
   - date_relative
   - time_default_location
   - date_and_time
   - time_custom_location
-  - bot_challenge
+  - stock_price
 
 responses:
   utter_welcome:
@@ -34,10 +35,12 @@ actions:
  - action_day_today
  - action_date_relative
  - action_time_custom_location
+ - action_stock_price
 
 entities:
   - GPE
   - DATE
+  - ORG
 
 session_config:
   session_expiration_time: 60

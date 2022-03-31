@@ -26,3 +26,8 @@ stories:
   steps:
     - intent: time_custom_location
     - action: action_time_custom_location
+
+- story: stock price path
+  steps:
+    - intent: stock_price
+    - action: action_stock_price
