@@ -12,6 +12,7 @@ intents:
   - date_and_time
   - time_custom_location
   - stock_price
+  - currency_price
 
 responses:
   utter_welcome:
@@ -36,11 +37,13 @@ actions:
  - action_date_relative
  - action_time_custom_location
  - action_stock_price
+ - action_currency_price
 
 entities:
   - GPE
   - DATE
   - ORG
+  - MONEY
 
 session_config:
   session_expiration_time: 60

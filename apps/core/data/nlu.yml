@@ -109,3 +109,10 @@ nlu:
     - What is the current price of microsoft stocks?
     - Could you tell me the current price of amazon stocks?
     - Tell me the dell stock price.
+
+- intent: currency_price
+  examples: |
+    - What is the price of US Dollar in Polish Zloty
+    - Could you tell me, what is the price of British Pound in Euro
+    - What is the price of Euro in Polish Zloty
+    - Tell me the price of British Pound in Polish Zloty

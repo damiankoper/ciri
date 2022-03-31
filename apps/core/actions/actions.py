@@ -155,3 +155,15 @@ class ActionStockPrice(Action):
         # TODO - enhance symbol lookup
         print(response.json()['result'][0]['symbol'])
         return []
+
+class ActionCurrencyPrice(Action):
+    def name(self) -> Text:
+        return 'action_currency_price'
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        entities = tracker.latest_message['entities']
+        # TODO - make it detect only 'MONEY' named entities
+        print(entities)
+

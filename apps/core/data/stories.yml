@@ -31,3 +31,8 @@ stories:
   steps:
     - intent: stock_price
     - action: action_stock_price
+
+- story: currency_price
+  steps:
+    - intent: currency_price
+    - action: action_currency_price
