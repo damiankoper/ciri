@@ -13,6 +13,7 @@ from rasa_sdk.events import SlotSet
 import requests
 from timezonefinder import TimezoneFinder
 import pytz
+from word2number import w2n
 
 
 class ActionTimeDefaultLocation(Action):
@@ -45,17 +46,28 @@ class ActionDayToday(Action):
 
         return []
 
-
-class ActionDayTomorrow(Action):
+class ActionDayRelative(Action):
     def name(self) -> Text:
-        return "action_day_tomorrow"
+        return 'action_day_relative'
+
+    def string_to_num_of_days(self, days_string):
+        if days_string == 'tomorrow':
+            return 1
+        else:
+            return w2n.word_to_num(days_string)
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        entities = tracker.latest_message['entities']
+        date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
 
-        day = (datetime.today() + timedelta(days=1)).strftime('%A')
-        response = f"Tomorrow will be {day}."
+        # number of days is always last in entities array
+        number_of_days_string = date_only[-1]['value']
+        number_of_days = self.string_to_num_of_days(number_of_days_string)
+
+        day_and_date = (datetime.today() + timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
+        response = f"It will be {day_and_date}."
         dispatcher.utter_message(text=response)
 
         return []

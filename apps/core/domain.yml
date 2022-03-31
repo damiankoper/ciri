@@ -5,11 +5,11 @@ intents:
   - goodbye
   - affirm
   - deny
-  - time_default_location
-  - time_custom_location
   - day_today
-  - day_tomorrow
+  - day_relative
+  - time_default_location
   - date_and_time
+  - time_custom_location
   - bot_challenge
 
 responses:
@@ -30,15 +30,14 @@ responses:
 
 actions:
  - action_time_default_location
- - action_day_today
- - action_day_tomorrow
  - action_date_and_time
+ - action_day_today
+ - action_day_relative
  - action_time_custom_location
-
 
 entities:
   - GPE
-
+  - DATE
 
 session_config:
   session_expiration_time: 60

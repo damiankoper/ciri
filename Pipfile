@@ -8,6 +8,7 @@ rasa = "*"
 spacy = "*"
 requests = "*"
 pytz = "*"
+word2number = "*"
 
 [dev-packages]
 
