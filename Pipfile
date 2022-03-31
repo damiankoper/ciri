@@ -9,7 +9,6 @@ spacy = "*"
 requests = "*"
 pytz = "*"
 word2number = "*"
-python-dotenv = "*"
 
 [dev-packages]
 
