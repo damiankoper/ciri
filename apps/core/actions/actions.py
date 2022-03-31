@@ -46,9 +46,9 @@ class ActionDayToday(Action):
         return []
 
 
-class ActionDayRelative(Action):
+class ActionDateRelative(Action):
     def name(self) -> Text:
-        return 'action_day_relative'
+        return 'action_date_relative'
 
     def string_to_num_of_days(self, days_string: str):
         if days_string == 'tomorrow':

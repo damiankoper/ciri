@@ -6,7 +6,7 @@ intents:
   - affirm
   - deny
   - day_today
-  - day_relative
+  - date_relative
   - time_default_location
   - date_and_time
   - time_custom_location
@@ -32,7 +32,7 @@ actions:
  - action_time_default_location
  - action_date_and_time
  - action_day_today
- - action_day_relative
+ - action_date_relative
  - action_time_custom_location
 
 entities:

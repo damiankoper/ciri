@@ -12,10 +12,10 @@ stories:
     - intent: day_today
     - action: action_day_today
 
-- story: day relative path
+- story: date relative path
   steps:
-    - intent: day_relative
-    - action: action_day_relative
+    - intent: date_relative
+    - action: action_date_relative
 
 - story: date and time path
   steps:

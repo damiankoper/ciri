@@ -75,7 +75,7 @@ nlu:
     - What's today?
     - Tell me name of the current day of the week.
 
-- intent: day_relative
+- intent: date_relative
   examples: |
     - What's tomorrow?
     - What will be the day of the week tomorrow?
