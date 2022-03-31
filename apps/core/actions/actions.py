@@ -9,7 +9,6 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import SlotSet
 import requests
 from timezonefinder import TimezoneFinder
 import pytz
@@ -46,13 +45,18 @@ class ActionDayToday(Action):
 
         return []
 
+
 class ActionDayRelative(Action):
     def name(self) -> Text:
         return 'action_day_relative'
 
-    def string_to_num_of_days(self, days_string):
+    def string_to_num_of_days(self, days_string: str):
         if days_string == 'tomorrow':
             return 1
+        elif days_string == 'week' or days_string == 'a week' in days_string:
+            return 7
+        elif 'week' in days_string:
+            return 7 * w2n.word_to_num(days_string)
         else:
             return w2n.word_to_num(days_string)
 
@@ -66,7 +70,8 @@ class ActionDayRelative(Action):
         number_of_days_string = date_only[-1]['value']
         number_of_days = self.string_to_num_of_days(number_of_days_string)
 
-        day_and_date = (datetime.today() + timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
+        day_and_date = (datetime.today() +
+                        timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
         response = f"It will be {day_and_date}."
         dispatcher.utter_message(text=response)
 

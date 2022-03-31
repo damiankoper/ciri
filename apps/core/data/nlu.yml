@@ -75,7 +75,6 @@ nlu:
     - What's today?
     - Tell me name of the current day of the week.
 
-
 - intent: day_relative
   examples: |
     - What's tomorrow?
@@ -84,6 +83,10 @@ nlu:
     - What weekday will be in three days?
     - What day will be in five days?
     - Tell me, what weekday will be tomorrow.
+    - What date will be in a week?
+    - What date will be in three days?
+    - Tell me, what date will be in three weeks
+    - Could you tell me, what date will be in six days?
 
 - intent: date_and_time
   examples: |
@@ -91,7 +94,6 @@ nlu:
     - What time and date is it?
     - Tell me date and time.
     - Tell me time and date.
-
 
 - intent: bot_challenge
   examples: |

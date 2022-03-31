@@ -22,7 +22,7 @@ stories:
     - intent: date_and_time
     - action: action_date_and_time
 
-- story: time_custom_location
+- story: time custom location path
   steps:
     - intent: time_custom_location
     - action: action_time_custom_location
