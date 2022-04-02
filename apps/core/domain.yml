@@ -5,29 +5,45 @@ intents:
   - goodbye
   - affirm
   - deny
-  - mood_great
-  - mood_unhappy
   - bot_challenge
+  - day_today
+  - date_relative
+  - time_default_location
+  - date_and_time
+  - time_custom_location
+  - stock_price
+  - currency_price
 
 responses:
-  utter_greet:
-  - text: "Hey! How are you?"
+  utter_welcome:
+  - text: "Hi, it's Ciri, your reliable source of information. Ask me something."
 
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
+  utter_subjects:
+  - text: "Subjects available: datetime, finances."
 
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
+  utter_continue:
+  - text: "Do you want to ask another question?"
 
   utter_goodbye:
   - text: "Bye"
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
+
+actions:
+ - action_time_default_location
+ - action_date_and_time
+ - action_day_today
+ - action_date_relative
+ - action_time_custom_location
+ - action_stock_price
+ - action_currency_price
+
+entities:
+  - GPE
+  - DATE
+  - ORG
+  - MONEY
 
 session_config:
   session_expiration_time: 60

@@ -6,8 +6,14 @@ name = "pypi"
 [packages]
 rasa = "*"
 spacy = "*"
+requests = "*"
+pytz = "*"
+word2number = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.8"
+
+[packages.timezonefinder]
+extras = [ "numba",]

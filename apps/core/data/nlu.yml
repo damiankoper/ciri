@@ -49,43 +49,70 @@ nlu:
     - no way
     - not really
 
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
-
 - intent: bot_challenge
   examples: |
     - are you a bot?
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: time_default_location
+  examples: |
+    - What time is it?
+    - Could you tell me what time it is?
+    - Could you tell me the time?
+    - Could you tell me what time it is, please?
+    - Could you tell me the time, please?
+    - Tell me the current time.
+
+- intent: time_custom_location
+  examples: |
+    - What time is it in London now?
+    - Tell me the time in Paris.
+    - Could you tell me the time in Warsaw?
+    - Could you tell me what time it is in Berlin, please?
+    - Could you tell me the time in New York, please?
+
+- intent: day_today
+  examples: |
+    - What day is it today?
+    - What day is today?
+    - What day is it?
+    - What day of the week, is it?
+    - What's today?
+    - Tell me name of the current day of the week.
+
+- intent: date_relative
+  examples: |
+    - What's tomorrow?
+    - What will be the day of the week tomorrow?
+    - Tell me, which day of the week will be in four days.
+    - What weekday will be in three days?
+    - What day will be in five days?
+    - Tell me, what weekday will be tomorrow.
+    - What date will be in a week?
+    - What date will be in three days?
+    - Tell me, what date will be in three weeks
+    - Could you tell me, what date will be in six days?
+
+- intent: date_and_time
+  examples: |
+    - What date and time is it?
+    - What time and date is it?
+    - Tell me date and time.
+    - Tell me time and date.
+
+- intent: stock_price
+  examples: |
+    - Tell me the apple stock price
+    - Tell me the Apple Inc. stock price
+    - What is the current price of microsoft stocks?
+    - Could you tell me the current price of amazon stocks?
+    - Tell me the dell stock price.
+
+- intent: currency_price
+  examples: |
+    - What is the price of US Dollar in Polish Zloty
+    - Could you tell me, what is the price of British Pound in Euro
+    - What is the price of Euro in Polish Zloty
+    - Tell me the price of British Pound in Polish Zloty

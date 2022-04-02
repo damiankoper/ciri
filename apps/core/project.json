@@ -17,6 +17,13 @@
         "cwd": "apps/core"
       }
     },
+    "actions": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "pipenv run rasa run actions --auto-reload",
+        "cwd": "apps/core"
+      }
+    },
     "train": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
