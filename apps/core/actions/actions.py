@@ -6,6 +6,7 @@
 
 from datetime import datetime, timedelta
 from typing import Any, Text, Dict, List
+from urllib import response
 import urllib.parse
 
 from rasa_sdk import Action, Tracker
@@ -156,6 +157,7 @@ class ActionStockPrice(Action):
         print(response.json()['result'][0]['symbol'])
         return []
 
+
 class ActionCurrencyPrice(Action):
     def name(self) -> Text:
         return 'action_currency_price'
@@ -167,3 +169,24 @@ class ActionCurrencyPrice(Action):
         # TODO - make it detect only 'MONEY' named entities
         print(entities)
 
+
+class ActionDefaultWeatherAndTIme(Action):
+    def name(self) -> Text:
+        return 'action_weather_default_location_and_time'
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        API_KEY = os.environ.get('WEATHER_API_KEY')
+        response = requests.get(
+            f'https://api.openweathermap.org/data/2.5/weather?lat=51.1&lon=17.0333&units=metric&appid={API_KEY}')
+
+        if response.status_code != 200:
+            dispatcher.utter_message(text="Remote source error occured")
+            return []
+        response = response.json()
+
+        msg = f"Weather in Wrocław: temperature: {response['main']['temp']}°C, pressure: {response['main']['pressure']}hPa, humidity: {response['main']['pressure']}%"
+        dispatcher.utter_message(text=msg)
+
+        return []

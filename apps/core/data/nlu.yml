@@ -116,3 +116,10 @@ nlu:
     - Could you tell me, what is the price of British Pound in Euro
     - What is the price of Euro in Polish Zloty
     - Tell me the price of British Pound in Polish Zloty
+
+- intent: weather_default_location_and_time
+  examples: |
+    - What is the weather like today?
+    - What is it like outside?
+    - How is the weather today?
+    - What is the weather forecast for today?

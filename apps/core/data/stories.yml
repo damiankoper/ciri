@@ -32,7 +32,12 @@ stories:
     - intent: stock_price
     - action: action_stock_price
 
-- story: currency_price
+- story: currency price path
   steps:
     - intent: currency_price
     - action: action_currency_price
+
+- story: weather in default location and time path
+  steps:
+    - intent: weather_default_location_and_time
+    - action: action_weather_default_location_and_time
