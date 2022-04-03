@@ -137,3 +137,16 @@ nlu:
     - What is the weather forecast for Saturday?
     - What is the weather forecast for Sunday?
     - Tell me the weather forecast for tomorrow.
+
+- intent: weather_custom_location_relative
+  examples: |
+    - What will be the weather tomorrow in Tokio?
+    - What will be the weather in three days in Berlin?
+    - What is the weather forecast for Warsaw for Monday?
+    - What is the weather forecast for London for Tuesday?
+    - What is the weather forecast for Moscow for Wednesday?
+    - What is the weather forecast for Stuttgart for Thursday?
+    - What is the weather forecast for Madrid for Friday?
+    - What is the weather forecast for Dublin for Saturday?
+    - What is the weather forecast for Oslo Sunday?
+    - Tell me the weather forecast for tomorrow for Rome.

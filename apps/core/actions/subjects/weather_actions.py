@@ -5,7 +5,8 @@ from rasa_sdk.executor import CollectingDispatcher
 import requests
 
 from ..config import WEATHER_API_KEY, ERROR_MESSAGE
-from ..utils import string_to_num_of_days, next_weekday
+from ..utils import (get_forecast, string_to_num_of_days,
+                     next_weekday, get_city_coordinates, get_relative_time)
 
 
 class ActionWeatherDefaultLocationAndTime(Action):
@@ -82,4 +83,37 @@ class ActionWeatherDefaultLocationRelative(Action):
                 msg = f"Weather forecast for {day}: {overall}, {temperature}°C. Pressure: {pressure}hPa, humidity: {humidity}%."
 
         dispatcher.utter_message(text=msg)
+        return []
+
+
+class ActionWeatherDefaultLocationRelative(Action):
+    def name(self) -> Text:
+        return 'action_weather_custom_location_relative'
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        entities = tracker.latest_message['entities']
+        date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
+        gpe_only = list(filter(lambda x: x['entity'] == 'GPE', entities))
+
+        city = gpe_only[0]['value']
+        relative_time = date_only[0]['value'].lower()
+
+        number_of_days = get_relative_time(relative_time)
+
+        try:
+            lat, lon = get_city_coordinates(city)
+        except Exception as err:
+            dispatcher.utter_message(text=err)
+            return []
+
+        try:
+            response = get_forecast(number_of_days, lat, lon)
+        except Exception as err:
+            dispatcher.utter_message(text=err)
+            return []
+
+        dispatcher.utter_message(text=response)
         return []

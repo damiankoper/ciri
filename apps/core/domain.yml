@@ -15,6 +15,7 @@ intents:
   - currency_price
   - weather_default_location_and_time
   - weather_default_location_relative
+  - weather_custom_location_relative
 
 responses:
   utter_welcome:
@@ -42,6 +43,7 @@ actions:
  - action_currency_price
  - action_weather_default_location_and_time
  - action_weather_default_location_relative
+ - action_weather_custom_location_relative
 
 
 entities:
