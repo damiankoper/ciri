@@ -46,43 +46,17 @@ class ActionWeatherDefaultLocationRelative(Action):
         entities = tracker.latest_message['entities']
         date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
 
-        weekdays = ['monday', 'tuesday', 'wednesday',
-                    'thursday', 'friday', 'saturday', 'sunday']
-
         relative_time = date_only[0]['value'].lower()
 
-        if relative_time in weekdays:
-            weekday_number = weekdays.index(relative_time)
-            number_of_days = next_weekday(weekday_number)
-        else:
-            number_of_days = string_to_num_of_days(relative_time)
+        number_of_days = get_relative_time(relative_time)
 
-        if number_of_days > 7:
-            dispatcher.utter_message(
-                text="Cannot forecast weather for longer than seven days.")
+        try:
+            response = get_forecast(number_of_days)
+        except Exception as err:
+            dispatcher.utter_message(text=err)
             return []
 
-        response = requests.get(
-            f'https://api.openweathermap.org/data/2.5/onecall?lat=51.1&lon=17.0333&exclude=current,minutely,hourly,alerts&units=metric&appid={WEATHER_API_KEY}')
-
-        if response.status_code != 200:
-            dispatcher.utter_message(text=ERROR_MESSAGE)
-            return []
-
-        response = response.json()
-        searched_date = date.today() + timedelta(days=number_of_days)
-
-        msg = 'ms'
-        for item in response['daily']:
-            if date.fromtimestamp(item['dt']) == searched_date:
-                day = searched_date.strftime('%A, %d %B %Y')
-                overall = item['weather'][0]['main'].lower()
-                temperature = item['temp']['day']
-                pressure = item['pressure']
-                humidity = item['humidity']
-                msg = f"Weather forecast for {day}: {overall}, {temperature}°C. Pressure: {pressure}hPa, humidity: {humidity}%."
-
-        dispatcher.utter_message(text=msg)
+        dispatcher.utter_message(text=response)
         return []
 
 

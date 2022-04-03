@@ -7,7 +7,7 @@ from timezonefinder import TimezoneFinder
 import pytz
 
 from ..config import ERROR_MESSAGE
-from ..utils import string_to_num_of_days
+from ..utils import get_city_coordinates, string_to_num_of_days
 
 
 class ActionTimeDefaultLocation(Action):
@@ -87,19 +87,13 @@ class ActionTimeCustomLocation(Action):
         entities = tracker.latest_message['entities']
         gpe_only = list(filter(lambda x: x['entity'] == 'GPE', entities))
 
-        data = []
-        if len(gpe_only) > 0:
-            user_choice = gpe_only[0]['value']
-            # print(user_choice, tracker.latest_message)
-            response = requests.get(
-                f"https://nominatim.openstreetmap.org/search.php?q={user_choice}&format=jsonv2")
-            data = response.json()
-        if not len(data):
-            dispatcher.utter_message(text=ERROR_MESSAGE)
-            return []
+        city = gpe_only[0]['value']
 
-        lon = float(data[0]['lon'])
-        lat = float(data[0]['lat'])
+        try:
+            lat, lon = get_city_coordinates(city)
+        except Exception as err:
+            dispatcher.utter_message(text=err)
+            return []
 
         tf = TimezoneFinder()
         zone_name = tf.timezone_at(lng=lon, lat=lat)
