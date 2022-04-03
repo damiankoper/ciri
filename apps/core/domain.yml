@@ -14,6 +14,7 @@ intents:
   - stock_price
   - currency_price
   - weather_default_location_and_time
+  - weather_default_location_relative
 
 responses:
   utter_welcome:
@@ -40,6 +41,8 @@ actions:
  - action_stock_price
  - action_currency_price
  - action_weather_default_location_and_time
+ - action_weather_default_location_relative
+
 
 entities:
   - GPE

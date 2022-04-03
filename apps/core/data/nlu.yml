@@ -123,3 +123,17 @@ nlu:
     - What is it like outside?
     - How is the weather today?
     - What is the weather forecast for today?
+    - Tell me the weather forecast for today
+
+- intent: weather_default_location_relative
+  examples: |
+    - What will be the weather tomorrow?
+    - What will be the weather in three days?
+    - What is the weather forecast for Monday?
+    - What is the weather forecast for Tuesday?
+    - What is the weather forecast for Wednesday?
+    - What is the weather forecast for Thursday?
+    - What is the weather forecast for Friday?
+    - What is the weather forecast for Saturday?
+    - What is the weather forecast for Sunday?
+    - Tell me the weather forecast for tomorrow.

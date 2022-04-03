@@ -4,18 +4,16 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Any, Text, Dict, List
-from urllib import response
-import urllib.parse
-
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 import requests
 from timezonefinder import TimezoneFinder
 import pytz
-from word2number import w2n
-import os
+
+from .config import WEATHER_API_KEY, FINNHUB_API_KEY, ERROR_MESSAGE
+from .utils import string_to_num_of_days, next_weekday
 
 
 class ActionTimeDefaultLocation(Action):
@@ -53,16 +51,6 @@ class ActionDateRelative(Action):
     def name(self) -> Text:
         return 'action_date_relative'
 
-    def string_to_num_of_days(self, days_string: str):
-        if days_string == 'tomorrow':
-            return 1
-        elif days_string == 'week' or days_string == 'a week' in days_string:
-            return 7
-        elif 'week' in days_string:
-            return 7 * w2n.word_to_num(days_string)
-        else:
-            return w2n.word_to_num(days_string)
-
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
@@ -71,8 +59,7 @@ class ActionDateRelative(Action):
 
         # number of days is always last in entities array
         number_of_days_string = date_only[-1]['value']
-        number_of_days = self.string_to_num_of_days(number_of_days_string)
-
+        number_of_days = string_to_num_of_days(number_of_days_string)
         day_and_date = (datetime.today() +
                         timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
         response = f"It will be {day_and_date}."
@@ -104,7 +91,6 @@ class ActionTimeCustomLocation(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         entities = tracker.latest_message['entities']
-        print(list(map(lambda x: x['value'], entities)))
         gpe_only = list(filter(lambda x: x['entity'] == 'GPE', entities))
 
         data = []
@@ -115,7 +101,7 @@ class ActionTimeCustomLocation(Action):
                 f"https://nominatim.openstreetmap.org/search.php?q={user_choice}&format=jsonv2")
             data = response.json()
         if not len(data):
-            dispatcher.utter_message(text="I don't know such city.")
+            dispatcher.utter_message(text=ERROR_MESSAGE)
             return []
 
         lon = float(data[0]['lon'])
@@ -140,16 +126,15 @@ class ActionStockPrice(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         entities = tracker.latest_message['entities']
         if len(entities) == 0:
-            dispatcher.utter_message(text="Company name not detected")
+            dispatcher.utter_message(text=ERROR_MESSAGE)
             return []
 
-        API_KEY = os.environ.get('FINNHUB_API_KEY')
         company_name = entities[0]['value'].replace(' ', '')
         response = requests.get(
-            f'https://finnhub.io/api/v1/search?q={company_name}&token={API_KEY}')
+            f'https://finnhub.io/api/v1/search?q={company_name}&token={FINNHUB_API_KEY}')
 
         if response.status_code != 200:
-            dispatcher.utter_message(text="Company name not detected")
+            dispatcher.utter_message(text=ERROR_MESSAGE)
             return []
 
         # TODO - fix lowercase symbols handling
@@ -170,23 +155,78 @@ class ActionCurrencyPrice(Action):
         print(entities)
 
 
-class ActionDefaultWeatherAndTIme(Action):
+class ActionWeatherDefaultLocationAndTime(Action):
     def name(self) -> Text:
         return 'action_weather_default_location_and_time'
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        API_KEY = os.environ.get('WEATHER_API_KEY')
         response = requests.get(
-            f'https://api.openweathermap.org/data/2.5/weather?lat=51.1&lon=17.0333&units=metric&appid={API_KEY}')
+            f'https://api.openweathermap.org/data/2.5/weather?lat=51.1&lon=17.0333&units=metric&appid={WEATHER_API_KEY}')
 
         if response.status_code != 200:
             dispatcher.utter_message(text="Remote source error occured")
             return []
         response = response.json()
 
-        msg = f"Weather in Wrocław: temperature: {response['main']['temp']}°C, pressure: {response['main']['pressure']}hPa, humidity: {response['main']['pressure']}%"
+        overall = response['weather'][0]['main'].lower()
+        temperature = response['main']['temp']
+        pressure = response['main']['pressure']
+        humidity = response['main']['humidity']
+
+        msg = f"Current weather in Wrocław: temperature: {overall} {temperature}°C, pressure: {pressure}hPa, humidity: {humidity}.%"
         dispatcher.utter_message(text=msg)
 
+        return []
+
+
+class ActionWeatherDefaultLocationRelative(Action):
+    def name(self) -> Text:
+        return 'action_weather_default_location_relative'
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        entities = tracker.latest_message['entities']
+        date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
+
+        weekdays = ['monday', 'tuesday', 'wednesday',
+                    'thursday', 'friday', 'saturday', 'sunday']
+
+        relative_time = date_only[0]['value'].lower()
+
+        if relative_time in weekdays:
+            weekday_number = weekdays.index(relative_time)
+            number_of_days = next_weekday(weekday_number)
+        else:
+            number_of_days = string_to_num_of_days(relative_time)
+
+        if number_of_days > 7:
+            dispatcher.utter_message(
+                text="Cannot forecast weather for longer than seven days.")
+            return []
+
+        response = requests.get(
+            f'https://api.openweathermap.org/data/2.5/onecall?lat=51.1&lon=17.0333&exclude=current,minutely,hourly,alerts&units=metric&appid={WEATHER_API_KEY}')
+
+        if response.status_code != 200:
+            dispatcher.utter_message(text=ERROR_MESSAGE)
+            return []
+
+        response = response.json()
+        searched_date = date.today() + timedelta(days=number_of_days)
+
+        msg = 'ms'
+        for item in response['daily']:
+            if date.fromtimestamp(item['dt']) == searched_date:
+                day = searched_date.strftime('%A, %d %B %Y')
+                overall = item['weather'][0]['main'].lower()
+                temperature = item['temp']['day']
+                pressure = item['pressure']
+                humidity = item['humidity']
+                msg = f"Weather forecast for {day}: {overall}, {temperature}°C. Pressure: {pressure}hPa, humidity: {humidity}%."
+
+        dispatcher.utter_message(text=msg)
         return []

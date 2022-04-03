@@ -41,3 +41,8 @@ stories:
   steps:
     - intent: weather_default_location_and_time
     - action: action_weather_default_location_and_time
+
+- story: weather in default location and relative time path
+  steps:
+    - intent: weather_default_location_relative
+    - action: action_weather_default_location_relative
