@@ -56,3 +56,8 @@ stories:
   steps:
     - intent: news_default_location
     - action: action_news_default_location
+
+- story: latest news custom in location path
+  steps:
+    - intent: news_custom_location
+    - action: action_news_custom_location

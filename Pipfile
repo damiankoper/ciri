@@ -9,6 +9,7 @@ spacy = "*"
 requests = "*"
 pytz = "*"
 word2number = "*"
+pycountry = "*"
 
 [dev-packages]
 

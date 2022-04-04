@@ -157,3 +157,10 @@ nlu:
     - Tell me some news
     - Tell me top 5 headlines
     - Bring me some news
+
+- intent: news_custom_location
+  examples: |
+    - Tell me the latest news for Greece
+    - Tell me some news for Germany
+    - Tell me top 5 headlines for Spain
+    - Bring me some news for USA
