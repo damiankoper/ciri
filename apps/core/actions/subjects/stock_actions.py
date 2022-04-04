@@ -14,7 +14,7 @@ class ActionStockPrice(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         entities = tracker.latest_message['entities']
         if len(entities) == 0:
-            dispatcher.utter_message(text=ERROR_MESSAGE)
+            dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
 
         company_name = entities[0]['value'].replace(' ', '')
@@ -22,7 +22,7 @@ class ActionStockPrice(Action):
             f'https://finnhub.io/api/v1/search?q={company_name}&token={FINNHUB_API_KEY}')
 
         if response.status_code != 200:
-            dispatcher.utter_message(text=ERROR_MESSAGE)
+            dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
 
         # TODO - fix lowercase symbols handling

@@ -76,3 +76,10 @@ def get_relative_time(time_string: str):
         number_of_days = string_to_num_of_days(relative_time)
 
     return number_of_days
+
+
+def create_default_json_response(msg: str):
+    return {
+        "type": "default",
+        "message": msg
+    }

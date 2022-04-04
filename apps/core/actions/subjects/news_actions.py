@@ -18,12 +18,12 @@ class ActionNewsDefaultLocation(Action):
         response = requests.get(
             f'https://newsapi.org/v2/top-headlines?country=pl&pageSize=5&page=1&apiKey={NEWS_API_KEY}')
         if response.status_code != 200:
-            dispatcher.utter_message(text=ERROR_MESSAGE)
+            dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
         response = response.json()
 
         msg = {}
-        msg['articles'] = response["articles"]
+        msg['message'] = response["articles"]
         msg['type'] = 'default location articles'
         dispatcher.utter_message(json_message=msg)
         return []
@@ -45,12 +45,12 @@ class ActionNewsDefaultLocation(Action):
         response = requests.get(
             f'https://newsapi.org/v2/top-headlines?country={country_code.alpha_2}&pageSize=5&page=1&apiKey={NEWS_API_KEY}')
         if response.status_code != 200:
-            dispatcher.utter_message(text=ERROR_MESSAGE)
+            dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
         response = response.json()
 
         msg = {}
-        msg['articles'] = response["articles"]
+        msg['message'] = response["articles"]
         msg['type'] = 'custom location articles'
         msg['location'] = country_code.official_name
         dispatcher.utter_message(json_message=msg)

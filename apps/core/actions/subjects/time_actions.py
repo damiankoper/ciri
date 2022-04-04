@@ -6,8 +6,8 @@ import requests
 from timezonefinder import TimezoneFinder
 import pytz
 
-from ..config import ERROR_MESSAGE
-from ..utils import get_city_coordinates, string_to_num_of_days
+from ..utils import (get_city_coordinates,
+                     string_to_num_of_days, create_default_json_response)
 
 
 class ActionTimeDefaultLocation(Action):
@@ -20,8 +20,9 @@ class ActionTimeDefaultLocation(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         now = datetime.now()
         current_time = now.strftime("%H:%M")
-        response = f"Current local time is {current_time}."
-        dispatcher.utter_message(text=response)
+        response = create_default_json_response(
+            f"Current local time is {current_time}.")
+        dispatcher.utter_message(json_message=response)
 
         return []
 
@@ -35,8 +36,8 @@ class ActionDayToday(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         day = datetime.today().strftime('%A')
-        response = f"Today is {day}."
-        dispatcher.utter_message(text=response)
+        response = create_default_json_response(f"Today is {day}.")
+        dispatcher.utter_message(json_message=response)
 
         return []
 
@@ -56,8 +57,8 @@ class ActionDateRelative(Action):
         number_of_days = string_to_num_of_days(number_of_days_string)
         day_and_date = (datetime.today() +
                         timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
-        response = f"It will be {day_and_date}."
-        dispatcher.utter_message(text=response)
+        response = create_default_json_response(f"It will be {day_and_date}.")
+        dispatcher.utter_message(json_message=response)
 
         return []
 
@@ -71,8 +72,8 @@ class ActionDateAndTime(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         day_and_time = datetime.now().strftime('%H:%M, %A %d %B %Y')
-        response = f"It is now {day_and_time}."
-        dispatcher.utter_message(text=response)
+        response = create_default_json_response(f"It is now {day_and_time}.")
+        dispatcher.utter_message(json_message=response)
 
         return []
 
@@ -92,7 +93,7 @@ class ActionTimeCustomLocation(Action):
         try:
             lat, lon = get_city_coordinates(city)
         except Exception as err:
-            dispatcher.utter_message(text=err)
+            dispatcher.utter_message(json_message=err)
             return []
 
         tf = TimezoneFinder()
@@ -100,6 +101,7 @@ class ActionTimeCustomLocation(Action):
         response = datetime.now(pytz.timezone(
             zone_name)).strftime('%H:%M, %A %d %B %Y')
 
-        dispatcher.utter_message(text=response)
+        dispatcher.utter_message(
+            json_message=create_default_json_response(response))
 
         return []

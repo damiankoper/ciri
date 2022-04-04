@@ -162,5 +162,5 @@ nlu:
   examples: |
     - Tell me the latest news for Greece
     - Tell me some news for Germany
-    - Tell me top 5 headlines for Spain
-    - Bring me some news for USA
+    - Tell me top 5 headlines for Portugal
+    - Bring me some news for United States

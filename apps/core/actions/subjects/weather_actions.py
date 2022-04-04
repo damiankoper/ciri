@@ -5,8 +5,8 @@ from rasa_sdk.executor import CollectingDispatcher
 import requests
 
 from ..config import WEATHER_API_KEY, ERROR_MESSAGE
-from ..utils import (get_forecast, string_to_num_of_days,
-                     next_weekday, get_city_coordinates, get_relative_time)
+from ..utils import (get_forecast, get_city_coordinates,
+                     get_relative_time, create_default_json_response)
 
 
 class ActionWeatherDefaultLocationAndTime(Action):
@@ -20,7 +20,7 @@ class ActionWeatherDefaultLocationAndTime(Action):
             f'https://api.openweathermap.org/data/2.5/weather?lat=51.1&lon=17.0333&units=metric&appid={WEATHER_API_KEY}')
 
         if response.status_code != 200:
-            dispatcher.utter_message(text="Remote source error occured")
+            dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
         response = response.json()
 
@@ -29,8 +29,8 @@ class ActionWeatherDefaultLocationAndTime(Action):
         pressure = response['main']['pressure']
         humidity = response['main']['humidity']
 
-        msg = f"Current weather in Wrocław: temperature: {overall} {temperature}°C, pressure: {pressure}hPa, humidity: {humidity}.%"
-        dispatcher.utter_message(text=msg)
+        msg = f"Current weather in Wrocław: temperature: {overall} {temperature}°C, pressure: {pressure}hPa, humidity: {humidity}%."
+        dispatcher.utter_message(json_message=create_default_json_response(msg))
 
         return []
 
@@ -53,14 +53,14 @@ class ActionWeatherDefaultLocationRelative(Action):
         try:
             response = get_forecast(number_of_days)
         except Exception as err:
-            dispatcher.utter_message(text=err)
+            dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
 
-        dispatcher.utter_message(text=response)
+        dispatcher.utter_message(json_message=create_default_json_response(response))
         return []
 
 
-class ActionWeatherDefaultLocationRelative(Action):
+class ActionWeatherCustomLocationRelative(Action):
     def name(self) -> Text:
         return 'action_weather_custom_location_relative'
 
@@ -89,5 +89,5 @@ class ActionWeatherDefaultLocationRelative(Action):
             dispatcher.utter_message(text=err)
             return []
 
-        dispatcher.utter_message(text=response)
+        dispatcher.utter_message(json_message=create_default_json_response(response))
         return []
