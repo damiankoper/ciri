@@ -51,3 +51,8 @@ stories:
   steps:
     - intent: weather_custom_location_relative
     - action: action_weather_custom_location_relative
+
+- story: latest news in default location path
+  steps:
+    - intent: news_default_location
+    - action: action_news_default_location

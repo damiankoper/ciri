@@ -16,6 +16,7 @@ intents:
   - weather_default_location_and_time
   - weather_default_location_relative
   - weather_custom_location_relative
+  - news_default_location
 
 responses:
   utter_welcome:
@@ -44,7 +45,7 @@ actions:
  - action_weather_default_location_and_time
  - action_weather_default_location_relative
  - action_weather_custom_location_relative
-
+ - action_news_default_location
 
 entities:
   - GPE

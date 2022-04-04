@@ -7,3 +7,4 @@
 from .subjects.time_actions import *
 from .subjects.stock_actions import *
 from .subjects.weather_actions import *
+from .subjects.news_actions import *

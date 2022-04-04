@@ -150,3 +150,10 @@ nlu:
     - What is the weather forecast for Dublin for Saturday?
     - What is the weather forecast for Oslo Sunday?
     - Tell me the weather forecast for tomorrow for Rome.
+
+- intent: news_default_location
+  examples: |
+    - Tell me the latest news
+    - Tell me some news
+    - Tell me top 5 headlines
+    - Bring me some news
