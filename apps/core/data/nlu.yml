@@ -116,3 +116,51 @@ nlu:
     - Could you tell me, what is the price of British Pound in Euro
     - What is the price of Euro in Polish Zloty
     - Tell me the price of British Pound in Polish Zloty
+
+- intent: weather_default_location_and_time
+  examples: |
+    - What is the weather like today?
+    - What is it like outside?
+    - How is the weather today?
+    - What is the weather forecast for today?
+    - Tell me the weather forecast for today
+
+- intent: weather_default_location_relative
+  examples: |
+    - What will be the weather tomorrow?
+    - What will be the weather in three days?
+    - What is the weather forecast for Monday?
+    - What is the weather forecast for Tuesday?
+    - What is the weather forecast for Wednesday?
+    - What is the weather forecast for Thursday?
+    - What is the weather forecast for Friday?
+    - What is the weather forecast for Saturday?
+    - What is the weather forecast for Sunday?
+    - Tell me the weather forecast for tomorrow.
+
+- intent: weather_custom_location_relative
+  examples: |
+    - What will be the weather tomorrow in Tokio?
+    - What will be the weather in three days in Berlin?
+    - What is the weather forecast for Warsaw for Monday?
+    - What is the weather forecast for London for Tuesday?
+    - What is the weather forecast for Moscow for Wednesday?
+    - What is the weather forecast for Stuttgart for Thursday?
+    - What is the weather forecast for Madrid for Friday?
+    - What is the weather forecast for Dublin for Saturday?
+    - What is the weather forecast for Oslo Sunday?
+    - Tell me the weather forecast for tomorrow for Rome.
+
+- intent: news_default_location
+  examples: |
+    - Tell me the latest news
+    - Tell me some news
+    - Tell me top 5 headlines
+    - Bring me some news
+
+- intent: news_custom_location
+  examples: |
+    - Tell me the latest news for Greece
+    - Tell me some news for Germany
+    - Tell me top 5 headlines for Portugal
+    - Bring me some news for United States

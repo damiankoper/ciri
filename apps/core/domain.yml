@@ -13,6 +13,11 @@ intents:
   - time_custom_location
   - stock_price
   - currency_price
+  - weather_default_location_and_time
+  - weather_default_location_relative
+  - weather_custom_location_relative
+  - news_default_location
+  - news_custom_location
 
 responses:
   utter_welcome:
@@ -38,6 +43,11 @@ actions:
  - action_time_custom_location
  - action_stock_price
  - action_currency_price
+ - action_weather_default_location_and_time
+ - action_weather_default_location_relative
+ - action_weather_custom_location_relative
+ - action_news_default_location
+ - action_news_custom_location
 
 entities:
   - GPE
