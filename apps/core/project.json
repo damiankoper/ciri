@@ -34,7 +34,7 @@
     "serve": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "pipenv run rasa run",
+        "command": "pipenv run rasa run --enable-api --cors '*'",
         "cwd": "apps/core"
       }
     },
