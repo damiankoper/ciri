@@ -13,6 +13,7 @@
         class="button green send"
         :disabled="!message.length"
         @click="send"
+        title="send"
       >
         <i class="mdi mdi-send"></i>
       </button>
@@ -25,7 +26,7 @@
         <i class="mdi mdi-delete"></i>
       </button>
 
-      <button class="button red mic">
+      <button class="button red mic" title="Listen for speach">
         <i v-if="listening" class="mdi mdi-text-to-speach"></i>
         <i class="mdi mdi-microphone"></i>
       </button>
@@ -66,6 +67,9 @@ hr {
   display: flex;
   align-items: flex-end;
   position: relative;
+  background-color: white;
+  box-shadow: 0 0px 14px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
   textarea {
     resize: none;
     border: none;
@@ -80,10 +84,10 @@ hr {
     line-height: 1;
     border-radius: 999px;
     border: none;
-    &:hover {
+    &:hover:not(:disabled) {
       filter: brightness(112%);
     }
-    &:active {
+    &:active:not(:disabled) {
       transition: none;
       filter: brightness(88%);
     }

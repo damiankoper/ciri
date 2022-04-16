@@ -32,13 +32,16 @@ import { DateTime } from 'luxon';
     color: white;
     text-align: center;
     margin: 12px;
+    line-height: 1;
     i {
       font-size: $logo-large-size;
-      margin: 0 -0.25em;
+      margin: 0 -0.4em;
+      display: inline-block;
+      transform: rotate(33deg);
     }
 
     font-weight: bold;
-    font-size: $logo-large-size / 1.25;
+    font-size: $logo-large-size / 1.5;
   }
 
   .ad {

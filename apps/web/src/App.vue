@@ -7,9 +7,8 @@
 </template>
 
 <script lang="ts">
-import LayoutFooter from "./components/layout/LayoutFooter.vue";
-import LayoutMain from "./components/layout/LayoutMain.vue";
-
+import LayoutFooter from './components/layout/LayoutFooter.vue';
+import LayoutMain from './components/layout/LayoutMain.vue';
 </script>
 
 <style lang="scss">
@@ -34,5 +33,8 @@ body {
   top: -16px;
   filter: blur(5px);
   z-index: -1;
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 </style>

@@ -10,7 +10,9 @@
       >
         <component :is="message.getRenderComponent()" :message="message" />
       </ChatMessage>
-      <div class="empty" v-if="!messages.length">No messages in history</div>
+      <div class="empty" v-if="!messages.length" key="empty">
+        <span>No messages in history</span>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +55,25 @@ onMounted(() => {
   padding: 16px 16px 16px 16px;
   overflow-y: scroll;
 
+  scrollbar-width: thin;
+  scrollbar-color: $color-text-lighter transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    transition: all 0.5s ease-in-out;
+    background-color: white;
+    border-radius: 20px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background-color: $color-text-lighter;
+    }
+  }
+
   .content {
     display: flex;
     flex-direction: column;
@@ -62,6 +83,13 @@ onMounted(() => {
 
   .empty {
     text-align: center;
+    span {
+      color: white;
+      background-color: $color-green;
+      border-radius: 999px;
+      padding: 8px 16px;
+    }
+    margin-bottom: 16px;
   }
 }
 </style>

@@ -108,6 +108,7 @@ useIntervalFn(() => (relativeTimestamp.value = calcRelativeTimestamp()), 1000, {
   .time {
     margin: 4px $message-border-radius;
     font-size: 0.75em;
+    cursor: pointer;
 
     &.left {
       grid-column: 2;

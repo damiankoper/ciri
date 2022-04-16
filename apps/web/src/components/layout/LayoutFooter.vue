@@ -31,9 +31,9 @@
     text-decoration: none;
     color: inherit;
   }
-
-  .love {
-    @media (max-width: 768px) {
+  @media (max-width: 768px) {
+    display: none;
+    .love {
       display: none;
     }
   }

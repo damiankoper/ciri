@@ -17,5 +17,14 @@ import Chat from '../chat/Chat.vue';
   justify-content: space-evenly;
   min-height: calc(100vh - $footer-height); // 100% - footer
   width: 100%;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    padding: 0;
+    .logo-large {
+      gap: 0px;
+      display: none;
+    }
+  }
 }
 </style>
