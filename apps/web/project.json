@@ -4,8 +4,10 @@
   "sourceRoot": "apps/web/src",
   "targets": {
     "build": {
-      "executor": "@wanews/nx-vite:build",
-      "options": {}
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["npx vite build --base=/ciri/ --emptyOutDir apps/web"]
+      }
     },
     "serve": {
       "executor": "@wanews/nx-vite:serve",
@@ -14,9 +16,7 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": [
-          "apps/web/**/*.ts"
-        ]
+        "lintFilePatterns": ["apps/web/**/*.ts"]
       }
     },
     "test": {
@@ -30,10 +30,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "parallel": false,
-        "commands": [
-          "cd apps/web ; npx vite build --base=/ciri/ --emptyOutDir",
-          "git subtree push --prefix dist/web origin gh-pages"
-        ]
+        "commands": ["git subtree push --prefix dist/web origin gh-pages"]
       }
     }
   },

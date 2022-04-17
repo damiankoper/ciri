@@ -1,5 +1,5 @@
 import Axios from 'axios';
 
 export const axios = Axios.create({
-  baseURL: 'http://localhost:5005',
+  baseURL: process.env.WEB_RASA_URL || 'http://localhost:5005',
 });
