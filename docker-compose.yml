@@ -4,9 +4,11 @@ services:
   rasa-actions:
     image: kopernick/ciri-core:latest
     command: run actions
+    env_file: .env
 
   rasa-api:
     image: kopernick/ciri-core:latest
     command: run --enable-api --cors '*'
+    env_file: .env
     ports:
       - 5005:5005
