@@ -25,6 +25,16 @@
         "command": "npx vitest --run",
         "cwd": "apps/web"
       }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          "cd apps/web ; npx vite build --base=/ciri/ --emptyOutDir",
+          "git subtree push --prefix dist/web origin gh-pages"
+        ]
+      }
     }
   },
   "tags": []

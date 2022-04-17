@@ -41,7 +41,7 @@ import { DateTime } from 'luxon';
     }
 
     font-weight: bold;
-    font-size: $logo-large-size / 1.5;
+    font-size: math.div($logo-large-size, 1.5);
   }
 
   .ad {

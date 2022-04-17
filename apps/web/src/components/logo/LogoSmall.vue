@@ -24,7 +24,7 @@
     }
 
     font-weight: bold;
-    font-size: $logo-small-size / 1.5;
+    font-size: math.div($logo-small-size, 1.5);
   }
 }
 </style>

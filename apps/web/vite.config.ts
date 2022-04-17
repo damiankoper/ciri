@@ -21,15 +21,19 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "/src"),
-      "~@": path.resolve(__dirname, "/src"),
+      '@': path.resolve(__dirname, '/src'),
+      '~@': path.resolve(__dirname, '/src'),
     },
   },
+
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/assets/scss/_settings.scss";`
-      }
-    }
-  }
+        additionalData: `
+          @use "sass:math";
+          @import "@/assets/scss/_settings.scss";
+        `,
+      },
+    },
+  },
 });
