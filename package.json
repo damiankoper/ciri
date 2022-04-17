@@ -25,6 +25,7 @@
     "@nrwl/devkit": "13.8.8",
     "@nrwl/tao": "13.8.8",
     "@nrwl/workspace": "13.8.8",
+    "@nx-tools/nx-docker": "^2.3.0",
     "@types/node": "16.11.7",
     "@types/uuid": "^8.3.4",
     "@vitejs/plugin-vue": "^2.2.0",

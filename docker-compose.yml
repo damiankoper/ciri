@@ -1,0 +1,12 @@
+version: '3'
+services:
+
+  rasa-actions:
+    image: kopernick/ciri-core:latest
+    command: run actions
+
+  rasa-api:
+    image: kopernick/ciri-core:latest
+    command: run --enable-api --cors '*'
+    ports:
+      - 5005:5005
