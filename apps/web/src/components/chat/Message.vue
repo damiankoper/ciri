@@ -1,6 +1,6 @@
 <template>
   <div class="message-container" :class="[side]">
-    <div class="avatar" :class="[side, color]">
+    <div class="avatar" v-if="side !== 'center'" :class="[side, color]">
       <i v-if="side == 'right'" class="mdi mdi-account" />
       <i v-else-if="side == 'left'" class="mdi mdi-robot-love" />
     </div>
@@ -11,6 +11,7 @@
       class="time"
       :class="[side, color]"
       :title="timestamp.toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS)"
+      v-if="side !== 'center'"
     >
       {{ relativeTimestamp }}
     </div>
@@ -32,7 +33,7 @@ const props = defineProps({
     default: 'red',
   },
   side: {
-    type: String as PropType<'left' | 'right'>,
+    type: String as PropType<'left' | 'right' | 'center'>,
     default: 'left',
   },
 });
@@ -56,6 +57,9 @@ useIntervalFn(() => (relativeTimestamp.value = calcRelativeTimestamp()), 1000, {
   margin-bottom: 16px;
   &.left {
     grid-template-columns: 0fr 1fr;
+  }
+  &.center {
+    grid-template-columns: 0px 1fr;
   }
   &.right {
     grid-template-columns: 1fr 0fr;
@@ -86,11 +90,18 @@ useIntervalFn(() => (relativeTimestamp.value = calcRelativeTimestamp()), 1000, {
 
   .message {
     max-width: 66%;
-    padding: $message-border-radius - 4px $message-border-radius;
+    padding: $message-border-radius - 8px $message-border-radius;
     border-radius: $message-border-radius;
     color: white;
     &.left {
       grid-column: 2;
+      justify-self: flex-start;
+    }
+    &.center {
+      grid-column: 2;
+      justify-self: center;
+      max-width: 88%;
+      margin: 4px $message-border-radius;
     }
     &.right {
       grid-column: 1;

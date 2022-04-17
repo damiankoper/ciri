@@ -1,12 +1,19 @@
 <template>
   <div
     class="chat-container"
-    :class="{ mobile: navigator.userAgentData.mobile }"
+    :class="{ mobile: navigator?.userAgentData?.mobile }"
   >
     <LogoSmall />
     <div class="chat">
       <History :messages="messages" />
-      <Panel @message="onMessage" @clear="messages = []" :loading="false" />
+      <Panel
+        v-model:is-speech-synthesis-enabled="isSpeechSynthesisEnabled"
+        :is-speech-synthesis-supported="isSpeechSynthesisSupported"
+        :is-speech-playing="isSpeechPlaying"
+        @message="handleRequestMessage"
+        @clear="messages = []"
+        :loading="isLoadingDebounced"
+      />
     </div>
   </div>
 </template>
@@ -14,44 +21,18 @@
 <script setup lang="ts">
 import Panel from './Panel.vue';
 import History from './History.vue';
-import { useLocalStorage } from '@vueuse/core';
-import { v4 as uuidv4 } from 'uuid';
-import { DefaultMessage } from '../../domain/chat/models/default-message.model';
-import { MessageType } from '../../domain/chat/enums/message-type.enum';
-import { RenderMethod } from '../../domain/chat/enums/render-method.enum';
-import { Message } from '../../domain/chat/models/message.model';
-import { MessageSerializer } from '../../domain/chat/services/message-serializer.service';
-import { axios } from '../../plugins/axios';
-import { DateTime } from 'luxon';
 import LogoSmall from '../logo/LogoSmall.vue';
+import { useChat } from '../../domain/chat/composables/useChat';
 
-const messageSerializer = new MessageSerializer();
-
-const sender = useLocalStorage('ciri-sender', uuidv4());
-const messages = useLocalStorage<Message[]>('ciri-messages', [], {
-  serializer: messageSerializer,
-});
 const navigator = window.navigator;
-async function onMessage(msg: string) {
-  const message = new DefaultMessage(
-    sender.value,
-    msg,
-    MessageType.REQUEST,
-    RenderMethod.DEFAULT
-  );
-  messages.value.push(message);
-  const response = await axios.post('webhooks/rest/webhook', {
-    sender: sender.value,
-    message: msg,
-  });
-  const now = DateTime.now().toISO();
-  response.data.forEach((plain: any) => {
-    plain.timestamp = now;
-    plain.message = plain.text;
-    plain.sender = plain.recipient_id;
-  });
-  messages.value.push(...messageSerializer.transformPlain(response.data));
-}
+const {
+  messages,
+  isLoadingDebounced,
+  handleRequestMessage,
+  isSpeechPlaying,
+  isSpeechSynthesisEnabled,
+  isSpeechSynthesisSupported,
+} = useChat();
 </script>
 
 <style scoped lang="scss">

@@ -17,49 +17,125 @@
       >
         <i class="mdi mdi-send"></i>
       </button>
+      <div class="controls">
+        <button
+          class="button gray del"
+          @click="emit('clear')"
+          title="Clear message history"
+        >
+          <i class="mdi mdi-delete"></i>
+        </button>
 
-      <button
-        class="button gray del"
-        @click="emit('clear')"
-        title="Clear message history"
-      >
-        <i class="mdi mdi-delete"></i>
-      </button>
+        <button
+          class="button gray speaker"
+          :disabled="!isSpeechSynthesisSupported"
+          @click="
+            emit('update:isSpeechSynthesisEnabled', !isSpeechSynthesisEnabled)
+          "
+          title="Control speech"
+        >
+          <i
+            v-if="!isSpeechSynthesisEnabled || !isSpeechSynthesisSupported"
+            class="mdi mdi-volume-off"
+          ></i>
+          <i v-else class="mdi mdi-volume-high"></i>
+        </button>
 
-      <button class="button red mic" title="Listen for speach">
-        <i v-if="listening" class="mdi mdi-text-to-speach"></i>
-        <i class="mdi mdi-microphone"></i>
-      </button>
+        <button
+          class="button red mic"
+          :disabled="!isSpeechRecognitionSupported"
+          @click="isSpeechRecognitionEnabled = !isSpeechRecognitionEnabled"
+          title="Listen for speech"
+        >
+          <div class="pulse" :class="{ 'pulse-on': isListening }"></div>
+          <i
+            v-if="isSpeechRecognitionEnabled && isSpeechRecognitionSupported"
+            class="mdi mdi-text-to-speech"
+          />
+          <i v-else class="mdi mdi-microphone" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-const emit = defineEmits(['message', 'clear']);
+import { useLocalStorage, useSpeechRecognition } from '@vueuse/core';
+import { ref, watch } from 'vue';
+const emit = defineEmits([
+  'message',
+  'clear',
+  'update:isSpeechSynthesisEnabled',
+]);
 const props = defineProps({
-  loading: {
-    type: Boolean,
-    default: false,
-  },
+  loading: { type: Boolean, default: false },
+  isSpeechPlaying: { type: Boolean, default: false },
+  isSpeechSynthesisEnabled: { type: Boolean, default: true },
+  isSpeechSynthesisSupported: { type: Boolean, default: false },
 });
 
 const message = ref('');
 const textarea = ref<HTMLTextAreaElement | null>(null);
-const listening = ref(false);
-async function send(e: KeyboardEvent | MouseEvent) {
-  if (!e.shiftKey) {
+const {
+  isSupported: isSpeechRecognitionSupported,
+  isListening,
+  isFinal,
+  result: recognitionResult,
+  start: startRecognition,
+  stop: stopRecognition,
+} = useSpeechRecognition();
+const isSpeechRecognitionEnabled = useLocalStorage(
+  'ciri-speech-recognition',
+  false
+);
+
+watch(
+  [isSpeechRecognitionEnabled, () => props.isSpeechPlaying],
+  ([enabled, playing]) => {
+    if (enabled && !playing) startRecognition();
+    else stopRecognition();
+  }
+);
+
+watch(recognitionResult, (result) => {
+  message.value = result;
+});
+
+watch(isFinal, (v) => {
+  if (v) send();
+});
+
+async function send(e?: KeyboardEvent | MouseEvent) {
+  if (!e || !e.shiftKey) {
     if (message.value.length) {
       emit('message', message.value);
     }
     if (textarea.value) textarea.value.focus();
     message.value = '';
-    e.preventDefault();
+    recognitionResult.value = '';
+    e?.preventDefault();
   }
 }
 </script>
 
 <style scoped lang="scss">
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba($color-red, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 12px rgba($color-red, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba($color-red, 0);
+  }
+}
+
 hr {
   margin: 0;
 }
@@ -105,34 +181,50 @@ hr {
       background-color: $color-text-lighter;
     }
   }
-
   .send {
     margin: 16px;
     font-size: 20px;
     width: 40px;
     height: 40px;
   }
-
-  .mic {
-    position: absolute;
-    top: -26px;
+  .controls {
+    display: flex;
+    top: 0;
     right: 48px;
-    width: 48px;
-    height: 48px;
-    font-size: 28px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    z-index: 9999;
-  }
-
-  .del {
     position: absolute;
-    top: -19px;
-    right: 108px;
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     z-index: 9999;
+    height: 0;
+    button {
+      transform: translateY(-50%);
+      margin-left: 12px;
+    }
+
+    .mic {
+      width: 48px;
+      height: 48px;
+      font-size: 28px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      .pulse {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 999px;
+      }
+      .pulse-on {
+        display: inline-block;
+        animation: pulse 1s infinite;
+      }
+    }
+
+    .del,
+    .speaker {
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
   }
 }
 </style>

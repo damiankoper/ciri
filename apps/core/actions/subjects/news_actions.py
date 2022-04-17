@@ -23,8 +23,8 @@ class ActionNewsDefaultLocation(Action):
         response = response.json()
 
         msg = {}
-        msg['message'] = response["articles"]
-        msg['type'] = 'default location articles'
+        msg['articles'] = response["articles"]
+        msg['type'] = 'default_location_articles'
         dispatcher.utter_message(json_message=msg)
         return []
 
@@ -50,8 +50,8 @@ class ActionNewsDefaultLocation(Action):
         response = response.json()
 
         msg = {}
-        msg['message'] = response["articles"]
-        msg['type'] = 'custom location articles'
+        msg['articles'] = response["articles"]
+        msg['type'] = 'custom_location_articles'
         msg['location'] = country_code.official_name
         dispatcher.utter_message(json_message=msg)
         return []

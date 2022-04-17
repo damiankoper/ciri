@@ -1,5 +1,5 @@
 <template>
-  <div>{{ message.message }}</div>
+  <div>{{ message.payload.message }}</div>
 </template>
 
 <script setup lang="ts">
@@ -9,6 +9,7 @@ import { PropType } from 'vue';
 const props = defineProps({
   message: {
     type: Object as PropType<DefaultMessage>,
+    required: true,
   },
 });
 </script>

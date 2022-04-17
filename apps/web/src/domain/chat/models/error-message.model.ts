@@ -1,20 +1,20 @@
 import { Component, ComputedOptions, MethodOptions } from 'vue';
 import { Message } from './message.model';
-import DefaultMessageVue from '../../../components/chat/messages/DefaultMessage.vue';
+import ErrorMessageVue from '../../../components/chat/messages/ErrorMessage.vue';
 import { MessageType } from '../enums/message-type.enum';
 import { RenderMethod } from '../enums/render-method.enum';
 
-export interface IDefaultPayload {
+export interface IErrorPayload {
   message: string;
 }
 
-export class DefaultMessage extends Message {
-  payload: IDefaultPayload = {
+export class ErrorMessage extends Message {
+  payload: IErrorPayload = {
     message: '',
   };
 
-  type: MessageType = MessageType.REQUEST;
-  renderMethod: RenderMethod = RenderMethod.DEFAULT;
+  type: MessageType = MessageType.ERROR;
+  renderMethod: RenderMethod = RenderMethod.ERROR;
 
   constructor(msg: string) {
     super();
@@ -22,7 +22,7 @@ export class DefaultMessage extends Message {
   }
 
   getRenderComponent(): Component {
-    return DefaultMessageVue;
+    return ErrorMessageVue;
   }
 
   getSpeech(): string {

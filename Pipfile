@@ -10,6 +10,8 @@ requests = "*"
 pytz = "*"
 word2number = "*"
 pycountry = "*"
+numba = "*"
+llvmlite = "*"
 
 [dev-packages]
 
