@@ -11,5 +11,5 @@ export interface IResponseCustomDefault extends IResponseCustom {
 
 export interface IResponseMessage {
   text?: string;
-  custom?: IResponseCustomDefault;
+  custom?: IResponseCustom;
 }

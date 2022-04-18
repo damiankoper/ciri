@@ -1,0 +1,53 @@
+@startuml message
+title Message
+
+class DateTime <<luxon>>{}
+class Component <<vue>>{}
+
+enum MessageType {
+    REQUEST
+    RESPONSE
+    ERROR
+}
+enum RenderMethod {
+    DEFAULT
+    ERROR
+}
+abstract class Message {
+    +timestamp: DateTime
+    +type: MessageType
+    +renderMethod: RenderMethod
+    +{abstract} payload: Record<any, any>
+    +{abstract} getRenderComponent(): Component
+    +{abstract} getSpeech(): string
+}
+interface IDefaultPayload {
+    +message: string
+}
+class DefaultMessage extends Message {
+    +payload: IDefaultPayload
+    +type: MessageType
+    +renderMethod: RenderMethod.DEFAULT
+    +getRenderComponent(): Component
+    +getSpeech(): string
+}
+interface IErrorPayload {
+    +message: string
+}
+class ErrorMessage extends Message {
+    +payload: IErrorPayload
+    +type = MessageType.ERROR
+    +renderMethod: RenderMethod.ERROR
+    +getRenderComponent(): Component
+    +getSpeech(): string
+}
+
+DefaultMessage *-- IDefaultPayload
+ErrorMessage *-- IErrorPayload
+
+Message -up-> MessageType
+Message -up-> RenderMethod
+Message *- DateTime
+Component <. Message
+
+@enduml

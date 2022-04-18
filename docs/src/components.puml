@@ -1,0 +1,32 @@
+@startuml Components
+title Vue Components
+
+component App
+component LayoutMain
+component LayoutFooter
+App --> LayoutMain
+App --> LayoutFooter
+
+component LogoLarge
+component Chat
+LayoutMain --> LogoLarge
+LayoutMain --> Chat
+
+component History
+component LogoSmall
+component Panel
+
+Chat --> LogoSmall
+Chat --> History
+Chat --> Panel
+
+component Message
+component DefaultMessage
+component ErrorMessage
+History --> Message
+LogoLarge --> Message
+
+Message --> DefaultMessage
+Message --> ErrorMessage
+
+@enduml

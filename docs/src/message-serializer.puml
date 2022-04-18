@@ -1,0 +1,41 @@
+@startuml message-serializer
+title Message Serializer
+
+abstract class Message {
+ ...
+}
+
+interface IResponseCustom {
+    +type: RenderMethod
+}
+interface IResponseCustomDefault extends IResponseCustom {
+    +type: RenderMethod.DEFAULT
+    +text: string
+}
+interface IResponseMessage {
+    +text?: string
+    +custom?: IResponseCustom
+}
+interface Serializer<T> <<vueuse>> {
+  +read(raw: string): T
+  +write(value: T): string
+}
+class MessageSerializer <<service>> implements Serializer {
+    +read(raw: string): Message[]
+    +write(value: Message[]): string
+    +transformPlain(plain: Record<any, any>[]): Message[]
+    +mapResponseToPlain(messages: IResponseMessage[]): any[]
+}
+interface IRequestMessage {
+    +sender: string
+    +message: string
+    +timezone: string
+    +coords: { lat: number | null; long: number | null; }
+}
+
+MessageSerializer .> Message : <<creates>>
+MessageSerializer ..> IResponseMessage
+IResponseMessage *--> IResponseCustom
+
+IResponseMessage -[hidden]right- IRequestMessage
+@enduml
