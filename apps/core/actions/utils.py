@@ -30,7 +30,7 @@ def get_city_coordinates(city: str):
         f"https://nominatim.openstreetmap.org/search.php?q={city}&format=jsonv2")
     data = response.json()
     if not len(data):
-        raise Exception('City not found')
+        raise ValueError('City not found')
 
     lon = float(data[0]['lon'])
     lat = float(data[0]['lat'])
@@ -38,9 +38,9 @@ def get_city_coordinates(city: str):
     return lat, lon
 
 
-def get_forecast(number_of_days: int, lat: float = 51.1, lon: float = 17.033):
+def get_forecast(number_of_days: int, lat: float = 51.1, lon: float = 17.033, city = 'Wrocław'):
     if number_of_days > 7:
-        raise Exception("Cannot forecast weather for longer than seven days.")
+        raise ValueError("I am sorry, but I cannot forecast weather for longer than seven days.")
 
     response = requests.get(
         f'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly,alerts&units=metric&appid={WEATHER_API_KEY}')
@@ -59,8 +59,9 @@ def get_forecast(number_of_days: int, lat: float = 51.1, lon: float = 17.033):
             temperature = item['temp']['day']
             pressure = item['pressure']
             humidity = item['humidity']
-            msg = f"Weather forecast for {day}: {overall}, {temperature}°C. Pressure: {pressure}hPa, humidity: {humidity}%."
+            msg = f"Weather forecast for {city} for {day}. It will be {overall}, with temperature {temperature}°C, air pressure equal to {pressure}hPa and humidity {humidity}%."
     return msg
+
 
 
 def get_relative_time(time_string: str):
@@ -68,10 +69,13 @@ def get_relative_time(time_string: str):
                 'thursday', 'friday', 'saturday', 'sunday']
 
     relative_time = time_string.lower()
+    possible_digits = [int(s) for s in relative_time.split() if s.isdigit()]
 
     if relative_time in weekdays:
         weekday_number = weekdays.index(relative_time)
         number_of_days = next_weekday(weekday_number)
+    elif possible_digits:
+        number_of_days = possible_digits[0]
     else:
         number_of_days = string_to_num_of_days(relative_time)
 

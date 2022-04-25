@@ -18,6 +18,7 @@ class ActionWeatherDefaultLocationAndTime(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         response = requests.get(
             f'https://api.openweathermap.org/data/2.5/weather?lat=51.1&lon=17.0333&units=metric&appid={WEATHER_API_KEY}')
+        print('default')
 
         if response.status_code != 200:
             dispatcher.utter_message(json_message=ERROR_MESSAGE)
@@ -30,7 +31,8 @@ class ActionWeatherDefaultLocationAndTime(Action):
         humidity = response['main']['humidity']
 
         msg = f"Current weather in Wrocław: temperature: {overall} {temperature}°C, pressure: {pressure}hPa, humidity: {humidity}%."
-        dispatcher.utter_message(json_message=create_default_json_response(msg))
+        dispatcher.utter_message(
+            json_message=create_default_json_response(msg))
 
         return []
 
@@ -56,7 +58,8 @@ class ActionWeatherDefaultLocationRelative(Action):
             dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
 
-        dispatcher.utter_message(json_message=create_default_json_response(response))
+        dispatcher.utter_message(
+            json_message=create_default_json_response(response))
         return []
 
 
@@ -67,27 +70,30 @@ class ActionWeatherCustomLocationRelative(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         entities = tracker.latest_message['entities']
         date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
         gpe_only = list(filter(lambda x: x['entity'] == 'GPE', entities))
 
         city = gpe_only[0]['value']
-        relative_time = date_only[0]['value'].lower()
+        # default date is today
+        number_of_days = 0
 
-        number_of_days = get_relative_time(relative_time)
+        if date_only:
+            relative_time = date_only[0]['value'].lower()
+            number_of_days = get_relative_time(relative_time)
 
         try:
             lat, lon = get_city_coordinates(city)
-        except Exception as err:
-            dispatcher.utter_message(text=err)
+        except ValueError as err:
+            dispatcher.utter_message(text=err.args[0])
             return []
 
         try:
-            response = get_forecast(number_of_days, lat, lon)
-        except Exception as err:
-            dispatcher.utter_message(text=err)
+            response = get_forecast(number_of_days, lat, lon, city)
+        except ValueError as err:
+            dispatcher.utter_message(text=err.args[0])
             return []
 
-        dispatcher.utter_message(json_message=create_default_json_response(response))
+        dispatcher.utter_message(
+            json_message=create_default_json_response(response))
         return []
