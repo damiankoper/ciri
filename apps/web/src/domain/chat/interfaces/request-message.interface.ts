@@ -6,7 +6,7 @@ export interface IRequestMessage {
   /** IANA Timezone id */
   timezone: string;
   /** Coords, null if permission not granted */
-  coords: {
+  metadata: {
     lat: number | null;
     long: number | null;
   };

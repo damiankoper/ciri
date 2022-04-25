@@ -85,7 +85,7 @@ export function useChat() {
       sender: sender.value,
       message: text,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      coords: {
+      metadata: {
         lat: coords.value.latitude,
         long: coords.value.longitude,
       },
