@@ -7,7 +7,7 @@ from timezonefinder import TimezoneFinder
 import pytz
 
 from ..utils import (get_city_coordinates,
-                     string_to_num_of_days, create_default_json_response)
+                     get_number_of_days, create_default_json_response)
 
 
 class ActionTimeDefaultLocation(Action):
@@ -21,7 +21,7 @@ class ActionTimeDefaultLocation(Action):
         now = datetime.now()
         current_time = now.strftime("%H:%M")
         response = create_default_json_response(
-            f"Current local time is {current_time}.")
+            f"In Wrocław it is now {current_time}.")
         dispatcher.utter_message(json_message=response)
 
         return []
@@ -54,7 +54,13 @@ class ActionDateRelative(Action):
 
         # number of days is always last in entities array
         number_of_days_string = date_only[-1]['value']
-        number_of_days = string_to_num_of_days(number_of_days_string)
+        try:
+            number_of_days = get_number_of_days(number_of_days_string)
+        except ValueError as err:
+            dispatcher.utter_message(json_message=create_default_json_response(
+                "Could not detect the number of days."))
+            return []
+
         day_and_date = (datetime.today() +
                         timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
         response = create_default_json_response(f"It will be {day_and_date}.")
@@ -72,7 +78,8 @@ class ActionDateAndTime(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         day_and_time = datetime.now().strftime('%H:%M, %A %d %B %Y')
-        response = create_default_json_response(f"It is now {day_and_time}.")
+        response = create_default_json_response(
+            f"In Wrocław it is now {day_and_time}.")
         dispatcher.utter_message(json_message=response)
 
         return []
@@ -88,12 +95,17 @@ class ActionTimeCustomLocation(Action):
         entities = tracker.latest_message['entities']
         gpe_only = list(filter(lambda x: x['entity'] == 'GPE', entities))
 
-        city = gpe_only[0]['value']
+        if gpe_only:
+            city = gpe_only[0]['value']
+        else:
+            dispatcher.utter_message(json_message=create_default_json_response(
+                'I cannot properly detect given place. Try another one.'))
+            return []
 
         try:
             lat, lon = get_city_coordinates(city)
-        except Exception as err:
-            dispatcher.utter_message(json_message=err)
+        except ValueError as err:
+            dispatcher.utter_message(json_message=err.args[0])
             return []
 
         tf = TimezoneFinder()
@@ -102,6 +114,6 @@ class ActionTimeCustomLocation(Action):
             zone_name)).strftime('%H:%M, %A %d %B %Y')
 
         dispatcher.utter_message(
-            json_message=create_default_json_response(response))
+            json_message=create_default_json_response(f'In {city.capitalize()} it is now {response}'))
 
         return []

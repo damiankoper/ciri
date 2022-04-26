@@ -6,7 +6,13 @@ from .config import WEATHER_API_KEY, ERROR_MESSAGE
 
 
 def string_to_num_of_days(days_string: str):
-    if days_string == 'tomorrow':
+    if 'day after tomorrow' in days_string:
+        return 2
+    elif 'day before yesterday' in days_string:
+        return -2
+    elif 'yesterday' in days_string :
+        return -1
+    elif 'tomorrow' in days_string:
         return 1
     elif days_string == 'week' or days_string == 'a week' in days_string:
         return 7
@@ -38,9 +44,10 @@ def get_city_coordinates(city: str):
     return lat, lon
 
 
-def get_forecast(number_of_days: int, lat: float = 51.1, lon: float = 17.033, city = 'Wrocław'):
+def get_forecast(number_of_days: int, lat: float = 51.1, lon: float = 17.033, city='Wrocław'):
     if number_of_days > 7:
-        raise ValueError("I am sorry, but I cannot forecast weather for longer than seven days.")
+        raise ValueError(
+            "I am sorry, but I cannot forecast weather for longer than seven days.")
 
     response = requests.get(
         f'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly,alerts&units=metric&appid={WEATHER_API_KEY}')
@@ -63,7 +70,6 @@ def get_forecast(number_of_days: int, lat: float = 51.1, lon: float = 17.033, ci
     return msg
 
 
-
 def get_relative_time(time_string: str):
     weekdays = ['monday', 'tuesday', 'wednesday',
                 'thursday', 'friday', 'saturday', 'sunday']
@@ -80,6 +86,16 @@ def get_relative_time(time_string: str):
         number_of_days = string_to_num_of_days(relative_time)
 
     return number_of_days
+
+
+def get_number_of_days(days_string):
+    days_string = days_string.lower()
+    possible_digits = [int(s) for s in days_string.split() if s.isdigit()]
+
+    if possible_digits:
+        return possible_digits[0]
+    else:
+        return string_to_num_of_days(days_string)
 
 
 def create_default_json_response(msg: str):
