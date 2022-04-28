@@ -21,3 +21,23 @@ rules:
   steps:
   - intent: nlu_fallback
   - action: utter_fallback
+
+- rule: Say time help when user requests it
+  steps:
+  - intent: help_time
+  - action: utter_time_help
+
+- rule: Say news help when user requests it
+  steps:
+  - intent: help_news
+  - action: utter_news_help
+
+- rule: Say weather help when user requests it
+  steps:
+  - intent: help_weather
+  - action: utter_weather_help
+
+- rule: Say stocks help when user requests it's
+  steps:
+  - intent: help_stocks
+  - action: utter_stocks_help

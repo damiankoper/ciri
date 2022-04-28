@@ -56,6 +56,38 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
+- intent: help_time
+  examples: |
+    - Time help.
+    - Help time.
+    - What can you tell me about time and date?
+    - Options for time.
+    - Time options.
+
+- intent: help_stocks
+  examples: |
+    - Stocks help.
+    - Help stocks.
+    - What can you tell me about stocks?
+    - Options for stocks.
+    - Stock options.
+
+- intent: help_news
+  examples: |
+    - News help.
+    - Help news.
+    - What can you tell me about news?
+    - Options for news.
+    - News options.
+
+- intent: help_weather
+  examples: |
+    - Weather help.
+    - Help weather.
+    - What can you tell me about weather?
+    - Options for weather.
+    - Weather options.
+
 - intent: time_default_location
   examples: |
     - What time is it?

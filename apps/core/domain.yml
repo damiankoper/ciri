@@ -6,6 +6,10 @@ intents:
   - affirm
   - deny
   - bot_challenge
+  - help_time
+  - help_stocks
+  - help_weather
+  - help_news
   - day_today
   - date_relative
   - time_default_location
@@ -32,8 +36,20 @@ responses:
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
 
+  utter_time_help:
+  - text: I can tell you time and date in your location, current day, what day will be in given time, and time in given location.
+
+  utter_stocks_help:
+  - text: I can tell you about current stock price, currecy and cryptocurrency exchange rates
+
+  utter_weather_help:
+  - text: I can tell you weather in your location for today and for coming days. I can also say weather current weather and weather prediction for given location.
+
+  utter_news_help:
+  - text: I can tell you the news from your current country and for any country in the world.
+
   utter_fallback:
-  - text: I'm sorry, I could not understand your order. Repeat or change question.
+  - text: I am sorry, I could not understand your order. Repeat or change question.
 
 actions:
  - action_time_default_location
