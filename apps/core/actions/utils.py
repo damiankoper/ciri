@@ -36,7 +36,7 @@ def get_city_coordinates(city: str):
         f"https://nominatim.openstreetmap.org/search.php?q={city}&format=jsonv2")
     data = response.json()
     if not len(data):
-        raise ValueError('City not found')
+        raise ValueError('City not found.')
 
     lon = float(data[0]['lon'])
     lat = float(data[0]['lat'])
@@ -44,7 +44,7 @@ def get_city_coordinates(city: str):
     return lat, lon
 
 
-def get_forecast(number_of_days: int, lat: float = 51.1, lon: float = 17.033, city='Wrocław'):
+def get_forecast(number_of_days: int = 0, lat: float = 51.1, lon: float = 17.033, city='Wrocław'):
     if number_of_days > 7:
         raise ValueError(
             "I am sorry, but I cannot forecast weather for longer than seven days.")

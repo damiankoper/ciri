@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 from typing import Any, Text, Dict, List
+from urllib import response
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 import requests
@@ -16,25 +17,10 @@ class ActionWeatherDefaultLocationAndTime(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        metadata = tracker.latest_message.get("metadata")
-        print(metadata)
-        response = requests.get(
-            f'https://api.openweathermap.org/data/2.5/weather?lat=51.1&lon=17.0333&units=metric&appid={WEATHER_API_KEY}')
-        print('default')
 
-        if response.status_code != 200:
-            dispatcher.utter_message(json_message=ERROR_MESSAGE)
-            return []
-        response = response.json()
-
-        overall = response['weather'][0]['main'].lower()
-        temperature = response['main']['temp']
-        pressure = response['main']['pressure']
-        humidity = response['main']['humidity']
-
-        msg = f"Current weather in Wrocław: temperature: {overall} {temperature}°C, pressure: {pressure}hPa, humidity: {humidity}%."
+        response = get_forecast()
         dispatcher.utter_message(
-            json_message=create_default_json_response(msg))
+            json_message=create_default_json_response(response))
 
         return []
 
@@ -76,7 +62,13 @@ class ActionWeatherCustomLocationRelative(Action):
         date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
         gpe_only = list(filter(lambda x: x['entity'] == 'GPE', entities))
 
-        city = gpe_only[0]['value']
+        if gpe_only:
+            city = gpe_only[0]['value']
+        else:
+            dispatcher.utter_message(json_message=create_default_json_response(
+                'I cannot properly detect given place. Try another one.'))
+            return []
+
         # default date is today
         number_of_days = 0
 

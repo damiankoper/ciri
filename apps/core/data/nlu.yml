@@ -119,6 +119,9 @@ nlu:
 
 - intent: weather_default_location_and_time
   examples: |
+    - weather
+    - what weather
+    - tell weather
     - What is the weather like today?
     - What is it like outside?
     - How is the weather today?
@@ -129,6 +132,9 @@ nlu:
   examples: |
     - What will be the weather tomorrow?
     - What will be the weather in three days?
+    - What will be the weather in ten days?
+    - What will be the weather in 4 days?
+    - What will be the weather in 8 days?
     - What is the weather forecast for Monday?
     - What is the weather forecast for Tuesday?
     - What is the weather forecast for Wednesday?
@@ -140,6 +146,8 @@ nlu:
 
 - intent: weather_custom_location_relative
   examples: |
+    - weather in Wrocław
+    - tell weather in Warsaw
     - What will be the weather tomorrow in Tokio?
     - What will be the weather in three days in Berlin?
     - What is the weather forecast for Warsaw for Monday?
@@ -149,7 +157,9 @@ nlu:
     - What is the weather forecast for Madrid for Friday?
     - What is the weather forecast for Dublin for Saturday?
     - What is the weather forecast for Oslo Sunday?
-    - Tell me the weather forecast for tomorrow for Rome.
+    - Tell me the weather forecast for Sydney in 10 days.
+    - Tell me the weather forecast for San Diego in four days.
+    - Tell me the weather forecast for Los Angeles in 3 days.
 
 - intent: news_default_location
   examples: |
