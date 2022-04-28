@@ -21,10 +21,7 @@ intents:
 
 responses:
   utter_welcome:
-  - text: "Hi, it's Ciri, your reliable source of information. Ask me something."
-
-  utter_subjects:
-  - text: "Subjects available: datetime, finances."
+  - text: "Hi, it's Ciri, your reliable source of information. Ask me something. Subjects available: datetime, weather, news and finances."
 
   utter_continue:
   - text: "Do you want to ask another question?"
@@ -34,6 +31,9 @@ responses:
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
+
+  utter_fallback:
+  - text: I'm sorry, I could not understand your order. Repeat or change question.
 
 actions:
  - action_time_default_location

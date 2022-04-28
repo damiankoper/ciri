@@ -3,6 +3,7 @@ import pycountry
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+from ..utils import create_default_json_response
 
 from ..config import NEWS_API_KEY, ERROR_MESSAGE
 
@@ -39,8 +40,14 @@ class ActionNewsDefaultLocation(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         entities = tracker.latest_message['entities']
         gpe_only = list(filter(lambda x: x['entity'] == 'GPE', entities))
-        country = gpe_only[0]['value']
-        country_code = pycountry.countries.get(name=country)
+
+        if gpe_only:
+            country = gpe_only[0]['value']
+            country_code = pycountry.countries.get(name=country)
+        else:
+            dispatcher.utter_message(json_message=create_default_json_response(
+                'I cannot properly detect given country. Try another one.'))
+            return []
 
         response = requests.get(
             f'https://newsapi.org/v2/top-headlines?country={country_code.alpha_2}&pageSize=5&page=1&apiKey={NEWS_API_KEY}')

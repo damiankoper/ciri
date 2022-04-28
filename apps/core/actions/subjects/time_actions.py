@@ -53,7 +53,13 @@ class ActionDateRelative(Action):
         date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
 
         # number of days is always last in entities array
-        number_of_days_string = date_only[-1]['value']
+        if date_only:
+            number_of_days_string = date_only[-1]['value']
+        else:
+            dispatcher.utter_message(json_message=create_default_json_response(
+                "Could not detect the number of days."))
+            return []
+
         try:
             number_of_days = get_number_of_days(number_of_days_string)
         except ValueError as err:
