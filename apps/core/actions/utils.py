@@ -116,3 +116,14 @@ def get_place_from_coords(lat, long):
     response = response.json()
     place = response['display_name'].split(',')[0]
     return place
+
+
+def get_country_from_coords(lat, long):
+    response = requests.get(f'https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={long}&format=json&zoom=3&addressdetails=0&accept-language=en')
+
+    if response.status_code != 200:
+        raise ValueError(ERROR_MESSAGE)
+
+    response = response.json()
+    country = response['display_name']
+    return country

@@ -1,9 +1,10 @@
+from itertools import count
 import requests
 import pycountry
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from ..utils import create_default_json_response
+from ..utils import create_default_json_response, get_country_from_coords
 
 from ..config import NEWS_API_KEY, ERROR_MESSAGE
 
@@ -16,8 +17,14 @@ class ActionNewsDefaultLocation(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        metadata = tracker.latest_message.get("metadata")
+        country = get_country_from_coords(**metadata)
+
+        country_code = pycountry.countries.get(name=country)
+
         response = requests.get(
-            f'https://newsapi.org/v2/top-headlines?country=pl&pageSize=5&page=1&apiKey={NEWS_API_KEY}')
+            f'https://newsapi.org/v2/top-headlines?country={country_code.alpha_2}&pageSize=5&page=1&apiKey={NEWS_API_KEY}')
         if response.status_code != 200:
             dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
@@ -43,11 +50,12 @@ class ActionNewsDefaultLocation(Action):
 
         if gpe_only:
             country = gpe_only[0]['value']
-            country_code = pycountry.countries.get(name=country)
         else:
             dispatcher.utter_message(json_message=create_default_json_response(
                 'I cannot properly detect given country. Try another one.'))
             return []
+
+        country_code = pycountry.countries.get(name=country)
 
         response = requests.get(
             f'https://newsapi.org/v2/top-headlines?country={country_code.alpha_2}&pageSize=5&page=1&apiKey={NEWS_API_KEY}')

@@ -203,6 +203,10 @@ nlu:
 
 - intent: news_default_location
   examples: |
+    - news
+    - latest news
+    - latest headlines
+    - some news
     - Tell me the latest news.
     - Tell me some news.
     - Tell me top 5 headlines.
@@ -210,6 +214,10 @@ nlu:
 
 - intent: news_custom_location
   examples: |
+    - news for France
+    - Italy news
+    - Russia headlines
+    - headlines for Ukraine
     - Tell me the latest news for Greece.
     - Tell me some news for Germany.
     - Tell me top 5 headlines for Portugal.
