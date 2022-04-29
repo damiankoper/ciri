@@ -48,7 +48,7 @@ export function useChat() {
     isLoading.value = true;
     try {
       const response = await axios.post<IResponseMessage[]>(
-        'webhooks/rest/webhook',
+        'webhooks/customio/webhook',
         getPostPayload(text)
       );
       const transformed = messageSerializer.transformPlain(

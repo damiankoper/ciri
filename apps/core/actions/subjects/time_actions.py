@@ -18,6 +18,8 @@ class ActionTimeDefaultLocation(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        metadata = tracker.latest_message.get("metadata")
+        print(metadata)
         now = datetime.now()
         current_time = now.strftime("%H:%M")
         response = create_default_json_response(

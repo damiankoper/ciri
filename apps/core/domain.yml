@@ -26,6 +26,7 @@ intents:
 responses:
   utter_welcome:
   - text: "Hi, it's Ciri, your reliable source of information. Ask me something. Subjects available: datetime, weather, news and finances."
+    channel: myio
 
   utter_continue:
   - text: "Do you want to ask another question?"
