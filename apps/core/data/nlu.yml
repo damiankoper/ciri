@@ -98,6 +98,10 @@ nlu:
 - intent: date_relative
   examples: |
     - What's tomorrow?
+    - What day of the week was yesterday?
+    - What day of the week was day before yesterday?
+    - What day will be in 4 days?
+    - What day will be in 10 days?
     - What will be the day of the week tomorrow?
     - Tell me, which day of the week will be in four days.
     - What weekday will be in three days?
@@ -110,6 +114,10 @@ nlu:
 
 - intent: date_and_time
   examples: |
+    - datetime
+    - current datetime
+    - date and time
+    - current date and time
     - What date and time is it?
     - What time and date is it?
     - Tell me date and time.
@@ -172,8 +180,10 @@ nlu:
     - weather in Wrocław
     - weather in Rome now
     - weather in Beijing today
+    - current weather in Sydney
     - Montevideo weather
     - Napoli weather now
+    - What is the weather like in Tokyo?
     - Manchester weather today
     - Tell weather in Warsaw
 

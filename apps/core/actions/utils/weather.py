@@ -15,11 +15,22 @@ def get_forecast(number_of_days: int, place: str, lat: float, long: float):
 
     response = response.json()
     searched_date = date.today() + timedelta(days=number_of_days)
+    searched_date_plus_day = searched_date + timedelta(days=1)
 
     msg = ''
+
+    # TODO refector
+    # it deals with cases, that in some places is already another day
     for item in response['daily']:
         if date.fromtimestamp(item['dt']) == searched_date:
             day = searched_date.strftime('%A, %d %B %Y')
+            overall = item['weather'][0]['main'].lower()
+            temperature = item['temp']['day']
+            pressure = item['pressure']
+            humidity = item['humidity']
+            msg = f"Weather forecast for {place} for {day}. It will be {overall}, with temperature {temperature}°C, air pressure equal to {pressure}hPa and humidity {humidity}%."
+        elif not msg and date.fromtimestamp(item['dt']) == searched_date_plus_day:
+            day = searched_date_plus_day.strftime('%A, %d %B %Y')
             overall = item['weather'][0]['main'].lower()
             temperature = item['temp']['day']
             pressure = item['pressure']

@@ -79,7 +79,7 @@ class ActionDateRelative(Action):
 
         day_and_date = (datetime.today() +
                         timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
-        response = create_default_json_response(f"It will be {day_and_date}.")
+        response = create_default_json_response(f"It {'will be' if number_of_days > 0 else 'was'} {day_and_date}.")
         dispatcher.utter_message(json_message=response)
 
         return []
