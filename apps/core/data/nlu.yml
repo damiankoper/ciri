@@ -144,6 +144,8 @@ nlu:
 
 - intent: currency_price
   examples: |
+    - PLN price
+    - USD price
     - What is the price of US Dollar in Polish Zloty
     - Could you tell me, what is the price of British Pound in Euro
     - What is the price of Euro in Polish Zloty
@@ -154,6 +156,8 @@ nlu:
     - weather
     - what weather
     - tell weather
+    - weather now
+    - weather today
     - What is the weather like today?
     - What is it like outside?
     - How is the weather today?
@@ -162,6 +166,12 @@ nlu:
 
 - intent: weather_default_location_relative
   examples: |
+    - weather tomorrow
+    - weather in 3 days
+    - weather on Monday
+    - weather on Friday
+    - weather forecast
+    - weather forecast in three days
     - What will be the weather tomorrow?
     - What will be the weather in three days?
     - What will be the weather in ten days?
@@ -188,6 +198,9 @@ nlu:
 
 - intent: weather_custom_location_relative
   examples: |
+    - weather in Stambul in five days
+    - waether in Athens in 3 days
+    - weather in Kiev tomorrow
     - What will be the weather tomorrow in Tokio?
     - What will be the weather in three days in Berlin?
     - What is the weather forecast for Warsaw for Monday?

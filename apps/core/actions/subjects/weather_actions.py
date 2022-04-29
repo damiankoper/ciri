@@ -40,10 +40,16 @@ class ActionWeatherDefaultLocationRelative(Action):
 
         if date_only:
             relative_time = date_only[0]['value'].lower()
-            number_of_days = get_relative_time(relative_time)
         else:
             dispatcher.utter_message(json_message=create_default_json_response(
                 'I cannot detect for which day you want weather forecast.'))
+            return []
+
+        try:
+            number_of_days = get_relative_time(relative_time)
+        except ValueError:
+            dispatcher.utter_message(json_message=create_default_json_response(
+                'I cannot detect number of days'))
             return []
 
         metadata = tracker.latest_message.get("metadata")
@@ -51,7 +57,7 @@ class ActionWeatherDefaultLocationRelative(Action):
 
         try:
             response = get_forecast(number_of_days=number_of_days, place=place, **metadata)
-        except Exception as err:
+        except ValueError:
             dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
 
@@ -114,10 +120,16 @@ class ActionWeatherCustomLocationRelative(Action):
 
         if date_only:
             relative_time = date_only[0]['value'].lower()
-            number_of_days = get_relative_time(relative_time)
         else:
             dispatcher.utter_message(json_message=create_default_json_response(
                 'I cannot detect for which day you want weather forecast.'))
+            return []
+
+        try:
+            number_of_days = get_relative_time(relative_time)
+        except ValueError:
+            dispatcher.utter_message(json_message=create_default_json_response(
+                'I cannot detect number of days'))
             return []
 
         try:
