@@ -158,7 +158,7 @@ nlu:
     - What is it like outside?
     - How is the weather today?
     - What is the weather forecast for today?
-    - Tell me the weather forecast for today
+    - Tell me the weather forecast for today.
 
 - intent: weather_default_location_relative
   examples: |
@@ -176,10 +176,18 @@ nlu:
     - What is the weather forecast for Sunday?
     - Tell me the weather forecast for tomorrow.
 
-- intent: weather_custom_location_relative
+- intent: weather_custom_location_default_time
   examples: |
     - weather in Wrocław
-    - tell weather in Warsaw
+    - weather in Rome now
+    - weather in Beijing today
+    - Montevideo weather
+    - Napoli weather now
+    - Manchester weather today
+    - Tell weather in Warsaw
+
+- intent: weather_custom_location_relative
+  examples: |
     - What will be the weather tomorrow in Tokio?
     - What will be the weather in three days in Berlin?
     - What is the weather forecast for Warsaw for Monday?
@@ -195,14 +203,14 @@ nlu:
 
 - intent: news_default_location
   examples: |
-    - Tell me the latest news
-    - Tell me some news
-    - Tell me top 5 headlines
-    - Bring me some news
+    - Tell me the latest news.
+    - Tell me some news.
+    - Tell me top 5 headlines.
+    - Bring me some news.
 
 - intent: news_custom_location
   examples: |
-    - Tell me the latest news for Greece
-    - Tell me some news for Germany
-    - Tell me top 5 headlines for Portugal
-    - Bring me some news for United States
+    - Tell me the latest news for Greece.
+    - Tell me some news for Germany.
+    - Tell me top 5 headlines for Portugal.
+    - Bring me some news for United States.
