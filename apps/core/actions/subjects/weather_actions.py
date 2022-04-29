@@ -27,9 +27,9 @@ class ActionWeatherDefaultLocationAndTime(Action):
         return []
 
 
-class ActionWeatherDefaultLocationRelative(Action):
+class ActionWeatherDefaultLocationRelativeTime(Action):
     def name(self) -> Text:
-        return 'action_weather_default_location_relative'
+        return 'action_weather_default_location_relative_time'
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -100,9 +100,9 @@ class ActionWeatherCustomLocationDefaultTime(Action):
         return []
 
 
-class ActionWeatherCustomLocationRelative(Action):
+class ActionWeatherCustomLocationRelativeTime(Action):
     def name(self) -> Text:
-        return 'action_weather_custom_location_relative'
+        return 'action_weather_custom_location_relative_time'
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,

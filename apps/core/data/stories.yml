@@ -44,8 +44,8 @@ stories:
 
 - story: weather in default location and relative time path
   steps:
-    - intent: weather_default_location_relative
-    - action: action_weather_default_location_relative
+    - intent: weather_default_location_relative_time
+    - action: action_weather_default_location_relative_time
 
 - story: weather in custom location and defautlt time path
   steps:
@@ -54,8 +54,8 @@ stories:
 
 - story: weather in custom location and relative time path
   steps:
-    - intent: weather_custom_location_relative
-    - action: action_weather_custom_location_relative
+    - intent: weather_custom_location_relative_time
+    - action: action_weather_custom_location_relative_time
 
 - story: latest news in default location path
   steps:
