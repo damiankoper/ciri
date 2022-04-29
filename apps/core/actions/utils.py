@@ -53,7 +53,7 @@ def get_forecast(number_of_days: int = 0, lat: float = 51.1, lon: float = 17.033
         f'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=current,minutely,hourly,alerts&units=metric&appid={WEATHER_API_KEY}')
 
     if response.status_code != 200:
-        raise Exception(ERROR_MESSAGE)
+        raise ValueError(ERROR_MESSAGE)
 
     response = response.json()
     searched_date = date.today() + timedelta(days=number_of_days)
@@ -103,3 +103,14 @@ def create_default_json_response(msg: str):
         "type": "default",
         "message": msg
     }
+
+
+def get_place_from_coords(lat, long):
+    response = requests.get(f'https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={long}&format=json&zoom=10&addressdetails=0&accept-language=en')
+
+    if response.status_code != 200:
+        raise ValueError(ERROR_MESSAGE)
+
+    response = response.json()
+    place = response['display_name'].split(',')[0]
+    return place

@@ -6,7 +6,7 @@ import requests
 from timezonefinder import TimezoneFinder
 import pytz
 
-from ..utils import (get_city_coordinates,
+from ..utils import (get_city_coordinates, get_place_from_coords,
                      get_number_of_days, create_default_json_response)
 
 
@@ -18,13 +18,16 @@ class ActionTimeDefaultLocation(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
         metadata = tracker.latest_message.get("metadata")
-        print(metadata)
-        now = datetime.now()
-        current_time = now.strftime("%H:%M")
-        response = create_default_json_response(
-            f"In Wrocław it is now {current_time}.")
-        dispatcher.utter_message(json_message=response)
+        place = get_place_from_coords(**metadata)
+
+        tf = TimezoneFinder()
+        zone_name = tf.timezone_at(lng=metadata['long'], lat=metadata['lat'])
+        time = datetime.now(pytz.timezone(zone_name)).strftime('%H:%M')
+
+        dispatcher.utter_message(
+            json_message=create_default_json_response(f'In {place} it is now {time}'))
 
         return []
 
@@ -37,8 +40,14 @@ class ActionDayToday(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        day = datetime.today().strftime('%A')
-        response = create_default_json_response(f"Today is {day}.")
+        metadata = tracker.latest_message.get("metadata")
+        place = get_place_from_coords(**metadata)
+
+        tf = TimezoneFinder()
+        zone_name = tf.timezone_at(lng=metadata['long'], lat=metadata['lat'])
+        day = datetime.now(pytz.timezone(zone_name)).strftime('%A')
+
+        response = create_default_json_response(f"Today in {place} is {day}.")
         dispatcher.utter_message(json_message=response)
 
         return []
@@ -85,9 +94,14 @@ class ActionDateAndTime(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        day_and_time = datetime.now().strftime('%H:%M, %A %d %B %Y')
-        response = create_default_json_response(
-            f"In Wrocław it is now {day_and_time}.")
+        metadata = tracker.latest_message.get("metadata")
+        place = get_place_from_coords(**metadata)
+
+        tf = TimezoneFinder()
+        zone_name = tf.timezone_at(lng=metadata['long'], lat=metadata['lat'])
+
+        time = datetime.now(pytz.timezone(zone_name)).strftime('%H:%M, %A %d %B %Y')
+        response = create_default_json_response(f"In {place} it is now {time}.")
         dispatcher.utter_message(json_message=response)
 
         return []
