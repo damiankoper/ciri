@@ -2,13 +2,12 @@ from datetime import datetime, timedelta
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-import requests
 from timezonefinder import TimezoneFinder
 import pytz
 
-from ..utils import (get_city_coordinates, get_place_from_coords,
-                     get_number_of_days, create_default_json_response)
-
+from ..utils.location import get_city_coordinates, get_place_from_coords
+from ..utils.datetime import get_number_of_days
+from ..utils.common import create_default_json_response
 
 class ActionTimeDefaultLocation(Action):
 

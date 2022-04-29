@@ -1,12 +1,12 @@
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-import requests
 
+from ..utils.weather import get_forecast
+from ..utils.location import get_city_coordinates, get_place_from_coords
+from ..utils.datetime import get_relative_time
+from ..utils.common import create_default_json_response
 from ..config import ERROR_MESSAGE
-from ..utils import (get_forecast, get_city_coordinates,
-                     get_relative_time, create_default_json_response,
-                     get_place_from_coords)
 
 
 class ActionWeatherDefaultLocationAndTime(Action):

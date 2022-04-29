@@ -4,9 +4,10 @@ import pycountry
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from ..utils import create_default_json_response, get_country_from_coords
 
 from ..config import NEWS_API_KEY, ERROR_MESSAGE
+from ..utils.common import create_default_json_response
+from ..utils.location import get_country_from_coords
 
 
 class ActionNewsDefaultLocation(Action):
