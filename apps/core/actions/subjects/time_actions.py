@@ -1,13 +1,14 @@
-from datetime import datetime, timedelta
+import pytz
+from datetime import datetime, timedelta, date
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from timezonefinder import TimezoneFinder
-import pytz
 
-from ..utils.location import get_city_coordinates, get_place_from_coords
+
+from ..utils.location import get_city_coordinates, get_place_from_coords, get_timezone_from_coords
 from ..utils.datetime import get_number_of_days
 from ..utils.common import create_default_json_response
+
 
 class ActionTimeDefaultLocation(Action):
 
@@ -21,8 +22,7 @@ class ActionTimeDefaultLocation(Action):
         metadata = tracker.latest_message.get("metadata")
         place = get_place_from_coords(**metadata)
 
-        tf = TimezoneFinder()
-        zone_name = tf.timezone_at(lng=metadata['long'], lat=metadata['lat'])
+        zone_name = get_timezone_from_coords(**metadata)
         time = datetime.now(pytz.timezone(zone_name)).strftime('%H:%M')
 
         dispatcher.utter_message(
@@ -42,8 +42,7 @@ class ActionDayToday(Action):
         metadata = tracker.latest_message.get("metadata")
         place = get_place_from_coords(**metadata)
 
-        tf = TimezoneFinder()
-        zone_name = tf.timezone_at(lng=metadata['long'], lat=metadata['lat'])
+        zone_name = get_timezone_from_coords(**metadata)
         day = datetime.now(pytz.timezone(zone_name)).strftime('%A')
 
         response = create_default_json_response(f"Today in {place} is {day}.")
@@ -62,6 +61,9 @@ class ActionDateRelative(Action):
         entities = tracker.latest_message['entities']
         date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
 
+        metadata = tracker.latest_message.get("metadata")
+        zone_name = get_timezone_from_coords(**metadata)
+
         # number of days is always last in entities array
         if date_only:
             number_of_days_string = date_only[-1]['value']
@@ -77,9 +79,11 @@ class ActionDateRelative(Action):
                 "Could not detect the number of days."))
             return []
 
-        day_and_date = (datetime.today() +
+        today = date.today(pytz.timezone(zone_name)).strftime('%A')
+        day_and_date = (today +
                         timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
-        response = create_default_json_response(f"It {'will be' if number_of_days > 0 else 'was'} {day_and_date}.")
+        response = create_default_json_response(
+            f"It {'will be' if number_of_days > 0 else 'was'} {day_and_date}.")
         dispatcher.utter_message(json_message=response)
 
         return []
@@ -96,11 +100,11 @@ class ActionDateAndTime(Action):
         metadata = tracker.latest_message.get("metadata")
         place = get_place_from_coords(**metadata)
 
-        tf = TimezoneFinder()
-        zone_name = tf.timezone_at(lng=metadata['long'], lat=metadata['lat'])
-
-        time = datetime.now(pytz.timezone(zone_name)).strftime('%H:%M, %A %d %B %Y')
-        response = create_default_json_response(f"In {place} it is now {time}.")
+        zone_name = get_timezone_from_coords(**metadata)
+        time = datetime.now(pytz.timezone(zone_name)
+                            ).strftime('%H:%M, %A %d %B %Y')
+        response = create_default_json_response(
+            f"In {place} it is now {time}.")
         dispatcher.utter_message(json_message=response)
 
         return []
@@ -129,8 +133,7 @@ class ActionTimeCustomLocation(Action):
             dispatcher.utter_message(json_message=err.args[0])
             return []
 
-        tf = TimezoneFinder()
-        zone_name = tf.timezone_at(lng=lon, lat=lat)
+        zone_name = get_timezone_from_coords(lat, lon)
         response = datetime.now(pytz.timezone(
             zone_name)).strftime('%H:%M, %A %d %B %Y')
 

@@ -71,6 +71,8 @@ nlu:
 
 - intent: time_default_location
   examples: |
+    - time
+    - give me time
     - What time is it?
     - Could you tell me what time it is?
     - Could you tell me the time?
@@ -80,6 +82,11 @@ nlu:
 
 - intent: time_custom_location
   examples: |
+    - time in Tokyo
+    - Osaka time
+    - Wroclaw time
+    - time in Toronto
+    - time Cape Town
     - What time is it in London now?
     - Tell me the time in Paris.
     - Could you tell me the time in Warsaw?
@@ -88,6 +95,8 @@ nlu:
 
 - intent: day_today
   examples: |
+    - today
+    - day today
     - What day is it today?
     - What day is today?
     - What day is it?
@@ -97,6 +106,9 @@ nlu:
 
 - intent: date_relative
   examples: |
+    - date tomorrow
+    - date in 10 days
+    - date in seven days
     - What's tomorrow?
     - What day of the week was yesterday?
     - What day of the week was day before yesterday?

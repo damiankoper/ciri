@@ -1,4 +1,5 @@
 import requests
+from timezonefinder import TimezoneFinder
 from ..config import ERROR_MESSAGE
 
 def get_city_coordinates(city: str):
@@ -34,3 +35,9 @@ def get_country_from_coords(lat, long):
     response = response.json()
     country = response['display_name']
     return country
+
+
+def get_timezone_from_coords(lat, long):
+    tf = TimezoneFinder()
+    zone_name = tf.timezone_at(lng=long, lat=lat)
+    return zone_name
