@@ -6,7 +6,7 @@ from rasa_sdk.executor import CollectingDispatcher
 
 
 from ..utils.location import get_city_coordinates, get_place_from_coords, get_timezone_from_coords
-from ..utils.datetime import get_number_of_days
+from ..utils.datetime import get_relative_time
 from ..utils.common import create_default_json_response
 
 
@@ -73,13 +73,13 @@ class ActionDateRelative(Action):
             return []
 
         try:
-            number_of_days = get_number_of_days(number_of_days_string)
+            number_of_days = get_relative_time(number_of_days_string)
         except ValueError as err:
             dispatcher.utter_message(json_message=create_default_json_response(
                 "Could not detect the number of days."))
             return []
 
-        today = date.today(pytz.timezone(zone_name)).strftime('%A')
+        today = datetime.now(pytz.timezone(zone_name))
         day_and_date = (today +
                         timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
         response = create_default_json_response(
