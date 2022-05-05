@@ -19,6 +19,7 @@ class ActionTimeDefaultLocation(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+        # TODO: Handle null locale metadata, ask about location with saved context
         metadata = tracker.latest_message.get("metadata")
         place = get_place_from_coords(**metadata)
 

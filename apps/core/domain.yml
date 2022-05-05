@@ -1,4 +1,4 @@
-version: "3.0"
+version: '3.0'
 
 intents:
   - greet
@@ -26,47 +26,46 @@ intents:
 
 responses:
   utter_welcome:
-  - text: "Hi, it's Ciri, your reliable source of information. Ask me something. Subjects available: datetime, weather, news and finances."
-    channel: customio
+    - text: "Hi, it's Ciri, your reliable source of information. Ask me something about time and data, weather, news or finances."
 
   utter_continue:
-  - text: "Do you want to ask another question?"
+    - text: 'Do you want to ask another question?'
 
   utter_goodbye:
-  - text: "Bye"
+    - text: 'Bye'
 
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+    - text: 'I am a bot, powered by Rasa.'
 
   utter_time_help:
-  - text: I can tell you time and date in your location, current day, what day will be in given time, and time in given location.
+    - text: I can tell you time and date in your location, current day, what day will be in given time, and time in given location.
 
   utter_stocks_help:
-  - text: I can tell you about current stock price, currecy and cryptocurrency exchange rates
+    - text: I can tell you about current stock price, currecy and cryptocurrency exchange rates
 
   utter_weather_help:
-  - text: I can tell you weather in your location for today and for coming days. I can also say weather current weather and weather prediction for given location.
+    - text: I can tell you weather in your location for today and for coming days. I can also say weather current weather and weather prediction for given location.
 
   utter_news_help:
-  - text: I can tell you the news from your current country and for any country in the world.
+    - text: I can tell you the news from your current country and for any country in the world.
 
   utter_fallback:
-  - text: I am sorry, I could not understand your order. Repeat or change question.
+    - text: I am sorry, I could not understand your order. Repeat or change question.
 
 actions:
- - action_time_default_location
- - action_date_and_time
- - action_day_today
- - action_date_relative
- - action_time_custom_location
- - action_stock_price
- - action_currency_price
- - action_weather_default_location_and_time
- - action_weather_default_location_relative_time
- - action_weather_custom_location_default_time
- - action_weather_custom_location_relative_time
- - action_news_default_location
- - action_news_custom_location
+  - action_time_default_location
+  - action_date_and_time
+  - action_day_today
+  - action_date_relative
+  - action_time_custom_location
+  - action_stock_price
+  - action_currency_price
+  - action_weather_default_location_and_time
+  - action_weather_default_location_relative_time
+  - action_weather_custom_location_default_time
+  - action_weather_custom_location_relative_time
+  - action_news_default_location
+  - action_news_custom_location
 
 entities:
   - GPE

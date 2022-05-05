@@ -48,7 +48,7 @@ const props = defineProps({
   },
 });
 const history = ref<HTMLDivElement | null>(null);
-const scroll = useScroll(history);
+const scroll = useScroll(history, { offset: { bottom: 50 } });
 const showScrollBottom = ref(false);
 
 onMounted(() => {

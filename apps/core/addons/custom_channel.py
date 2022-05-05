@@ -9,8 +9,5 @@ logger = logging.getLogger(__name__)
 
 
 class CustomIO(RestInput):
-    def name(cls) -> Text:
-        return "customio"
-
     def get_metadata(self, request: Request) -> Dict[Text, Any]:
         return request.json.get("metadata", None)

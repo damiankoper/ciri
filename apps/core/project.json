@@ -34,7 +34,7 @@
     "serve": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "pipenv run rasa run --credentials  /home/tymek/programs/webdev/ciri/apps/core/credentials.yml --enable-api --cors '*'",
+        "command": "pipenv run rasa run --credentials  ${PWD}/credentials.yml --enable-api --cors '*'",
         "cwd": "apps/core"
       }
     },
@@ -55,9 +55,7 @@
           "NEWS_API_KEY=${NEWS_API_KEY}"
         ],
         "push": true,
-        "tags": [
-          "kopernick/ciri-core:latest"
-        ]
+        "tags": ["kopernick/ciri-core:latest"]
       }
     }
   },
