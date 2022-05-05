@@ -1,241 +1,241 @@
-version: "3.0"
+version: '3.0'
 
 nlu:
-- intent: greet
-  examples: |
-    - hey
-    - hello
-    - hi
-    - hello there
-    - good morning
-    - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
+  - intent: greet
+    examples: |
+      - hey
+      - hello
+      - hi
+      - hello there
+      - good morning
+      - good evening
+      - moin
+      - hey there
+      - let's go
+      - hey dude
+      - goodmorning
+      - goodevening
+      - good afternoon
 
-- intent: goodbye
-  examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
-    - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
+  - intent: goodbye
+    examples: |
+      - cu
+      - good by
+      - cee you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
 
-- intent: bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
 
-- intent: help_time
-  examples: |
-    - Time help.
-    - Help time.
-    - What can you tell me about time and date?
-    - Options for time.
-    - Time options.
+  - intent: help_time
+    examples: |
+      - Time help.
+      - Help time.
+      - What can you tell me about time and date?
+      - Options for time.
+      - Time options.
 
-- intent: help_stocks
-  examples: |
-    - Stocks help.
-    - Help stocks.
-    - What can you tell me about stocks?
-    - Options for stocks.
-    - Stock options.
+  - intent: help_stocks
+    examples: |
+      - Stocks help.
+      - Help stocks.
+      - What can you tell me about stocks?
+      - Options for stocks.
+      - Stock options.
 
-- intent: help_news
-  examples: |
-    - News help.
-    - Help news.
-    - What can you tell me about news?
-    - Options for news.
-    - News options.
+  - intent: help_news
+    examples: |
+      - News help.
+      - Help news.
+      - What can you tell me about news?
+      - Options for news.
+      - News options.
 
-- intent: help_weather
-  examples: |
-    - Weather help.
-    - Help weather.
-    - What can you tell me about weather?
-    - Options for weather.
-    - Weather options.
+  - intent: help_weather
+    examples: |
+      - Weather help.
+      - Help weather.
+      - What can you tell me about weather?
+      - Options for weather.
+      - Weather options.
 
-- intent: time_default_location
-  examples: |
-    - time
-    - give me time
-    - What time is it?
-    - Could you tell me what time it is?
-    - Could you tell me the time?
-    - Could you tell me what time it is, please?
-    - Could you tell me the time, please?
-    - Tell me the current time.
+  - intent: time_default_location
+    examples: |
+      - time
+      - give me time
+      - What time is it?
+      - Could you tell me what time it is?
+      - Could you tell me the time?
+      - Could you tell me what time it is, please?
+      - Could you tell me the time, please?
+      - Tell me the current time.
 
-- intent: time_custom_location
-  examples: |
-    - time in Tokyo
-    - Osaka time
-    - Wroclaw time
-    - time in Toronto
-    - time Cape Town
-    - What time is it in London now?
-    - Tell me the time in Paris.
-    - Could you tell me the time in Warsaw?
-    - Could you tell me what time it is in Berlin, please?
-    - Could you tell me the time in New York, please?
+  - intent: time_custom_location
+    examples: |
+      - time in Tokyo
+      - Osaka time
+      - Wroclaw time
+      - time in Toronto
+      - time Cape Town
+      - What time is it in London now?
+      - Tell me the time in Paris.
+      - Could you tell me the time in Warsaw?
+      - Could you tell me what time it is in Berlin, please?
+      - Could you tell me the time in New York, please?
 
-- intent: day_today
-  examples: |
-    - today
-    - day today
-    - What day is it today?
-    - What day is today?
-    - What day is it?
-    - What day of the week, is it?
-    - What's today?
-    - Tell me name of the current day of the week.
+  - intent: day_today
+    examples: |
+      - today
+      - day today
+      - What day is it today?
+      - What day is today?
+      - What day is it?
+      - What day of the week, is it?
+      - What's today?
+      - Tell me name of the current day of the week.
 
-- intent: date_relative
-  examples: |
-    - date tomorrow
-    - date in 10 days
-    - date in seven days
-    - What's tomorrow?
-    - What day of the week was yesterday?
-    - What day of the week was day before yesterday?
-    - What day will be in 4 days?
-    - What day will be in 10 days?
-    - What will be the day of the week tomorrow?
-    - Tell me, which day of the week will be in four days.
-    - What weekday will be in three days?
-    - What day will be in five days?
-    - Tell me, what weekday will be tomorrow.
-    - What date will be in a week?
-    - What date will be in three days?
-    - Tell me, what date will be in three weeks
-    - Could you tell me, what date will be in six days?
+  - intent: date_relative
+    examples: |
+      - date tomorrow
+      - date in 10 days
+      - date in seven days
+      - What's tomorrow?
+      - What day of the week was yesterday?
+      - What day of the week was day before yesterday?
+      - What day will be in 4 days?
+      - What day will be in 10 days?
+      - What will be the day of the week tomorrow?
+      - Tell me, which day of the week will be in four days.
+      - What weekday will be in three days?
+      - What day will be in five days?
+      - Tell me, what weekday will be tomorrow.
+      - What date will be in a week?
+      - What date will be in three days?
+      - Tell me, what date will be in three weeks
+      - Could you tell me, what date will be in six days?
 
-- intent: date_and_time
-  examples: |
-    - datetime
-    - current datetime
-    - date and time
-    - current date and time
-    - What date and time is it?
-    - What time and date is it?
-    - Tell me date and time.
-    - Tell me time and date.
+  - intent: date_and_time
+    examples: |
+      - datetime
+      - current datetime
+      - date and time
+      - current date and time
+      - What date and time is it?
+      - What time and date is it?
+      - Tell me date and time.
+      - Tell me time and date.
 
-- intent: stock_price
-  examples: |
-    - Tell me the apple stock price
-    - Tell me the Apple Inc. stock price
-    - What is the current price of microsoft stocks?
-    - Could you tell me the current price of amazon stocks?
-    - Tell me the dell stock price.
+  - intent: stock_price
+    examples: |
+      - Tell me the Apple stock price
+      - Tell me the Apple Inc. stock price
+      - What is the current price of Microsoft stocks?
+      - Could you tell me the current price of Amazon stocks?
+      - Tell me the Dell stock price.
 
-- intent: currency_price
-  examples: |
-    - PLN price
-    - USD price
-    - What is the price of US Dollar in Polish Zloty
-    - Could you tell me, what is the price of British Pound in Euro
-    - What is the price of Euro in Polish Zloty
-    - Tell me the price of British Pound in Polish Zloty
+  - intent: currency_price
+    examples: |
+      - PLN price
+      - USD price
+      - What is the price of US Dollar in Polish Zloty
+      - Could you tell me, what is the price of British Pound in Euro
+      - What is the price of Euro in Polish Zloty
+      - Tell me the price of British Pound in Polish Zloty
 
-- intent: weather_default_location_and_time
-  examples: |
-    - weather
-    - what weather
-    - tell weather
-    - weather now
-    - weather today
-    - What is the weather like today?
-    - What is it like outside?
-    - How is the weather today?
-    - What is the weather forecast for today?
-    - Tell me the weather forecast for today.
+  - intent: weather_default_location_and_time
+    examples: |
+      - weather
+      - what weather
+      - tell weather
+      - weather now
+      - weather today
+      - What is the weather like today?
+      - What is it like outside?
+      - How is the weather today?
+      - What is the weather forecast for today?
+      - Tell me the weather forecast for today.
 
-- intent: weather_default_location_relative_time
-  examples: |
-    - weather tomorrow
-    - weather in 3 days
-    - weather on Monday
-    - weather on Friday
-    - weather forecast
-    - weather forecast in three days
-    - What will be the weather tomorrow?
-    - What will be the weather in three days?
-    - What will be the weather in ten days?
-    - What will be the weather in 4 days?
-    - What will be the weather in 8 days?
-    - What is the weather forecast for Monday?
-    - What is the weather forecast for Tuesday?
-    - What is the weather forecast for Wednesday?
-    - What is the weather forecast for Thursday?
-    - What is the weather forecast for Friday?
-    - What is the weather forecast for Saturday?
-    - What is the weather forecast for Sunday?
-    - Tell me the weather forecast for tomorrow.
+  - intent: weather_default_location_relative_time
+    examples: |
+      - weather tomorrow
+      - weather in 3 days
+      - weather on Monday
+      - weather on Friday
+      - weather forecast
+      - weather forecast in three days
+      - What will be the weather tomorrow?
+      - What will be the weather in three days?
+      - What will be the weather in ten days?
+      - What will be the weather in 4 days?
+      - What will be the weather in 8 days?
+      - What is the weather forecast for Monday?
+      - What is the weather forecast for Tuesday?
+      - What is the weather forecast for Wednesday?
+      - What is the weather forecast for Thursday?
+      - What is the weather forecast for Friday?
+      - What is the weather forecast for Saturday?
+      - What is the weather forecast for Sunday?
+      - Tell me the weather forecast for tomorrow.
 
-- intent: weather_custom_location_default_time
-  examples: |
-    - weather in Wrocław
-    - weather in Rome now
-    - weather in Beijing today
-    - current weather in Sydney
-    - Montevideo weather
-    - Napoli weather now
-    - What is the weather like in Tokyo?
-    - Manchester weather today
-    - Tell weather in Warsaw
+  - intent: weather_custom_location_default_time
+    examples: |
+      - weather in Wrocław
+      - weather in Rome now
+      - weather in Beijing today
+      - current weather in Sydney
+      - Montevideo weather
+      - Napoli weather now
+      - What is the weather like in Tokyo?
+      - Manchester weather today
+      - Tell weather in Warsaw
 
-- intent: weather_custom_location_relative_time
-  examples: |
-    - weather in Stambul in five days
-    - waether in Athens in 3 days
-    - weather in Kiev tomorrow
-    - waether in Rome day after tomorrow
-    - What will be the weather tomorrow in Tokio?
-    - What will be the weather in three days in Berlin?
-    - What is the weather forecast for Warsaw for Monday?
-    - What is the weather forecast for London for Tuesday?
-    - What is the weather forecast for Moscow for Wednesday?
-    - What is the weather forecast for Stuttgart for Thursday?
-    - What is the weather forecast for Madrid for Friday?
-    - What is the weather forecast for Dublin for Saturday?
-    - What is the weather forecast for Oslo Sunday?
-    - Tell me the weather forecast for Sydney in 10 days.
-    - Tell me the weather forecast for San Diego in four days.
-    - Tell me the weather forecast for Los Angeles in 3 days.
+  - intent: weather_custom_location_relative_time
+    examples: |
+      - weather in Stambul in five days
+      - waether in Athens in 3 days
+      - weather in Kiev tomorrow
+      - waether in Rome day after tomorrow
+      - What will be the weather tomorrow in Tokio?
+      - What will be the weather in three days in Berlin?
+      - What is the weather forecast for Warsaw for Monday?
+      - What is the weather forecast for London for Tuesday?
+      - What is the weather forecast for Moscow for Wednesday?
+      - What is the weather forecast for Stuttgart for Thursday?
+      - What is the weather forecast for Madrid for Friday?
+      - What is the weather forecast for Dublin for Saturday?
+      - What is the weather forecast for Oslo Sunday?
+      - Tell me the weather forecast for Sydney in 10 days.
+      - Tell me the weather forecast for San Diego in four days.
+      - Tell me the weather forecast for Los Angeles in 3 days.
 
-- intent: news_default_location
-  examples: |
-    - news
-    - latest news
-    - latest headlines
-    - some news
-    - Tell me the latest news.
-    - Tell me some news.
-    - Tell me top 5 headlines.
-    - Bring me some news.
+  - intent: news_default_location
+    examples: |
+      - news
+      - latest news
+      - latest headlines
+      - some news
+      - Tell me the latest news.
+      - Tell me some news.
+      - Tell me top 5 headlines.
+      - Bring me some news.
 
-- intent: news_custom_location
-  examples: |
-    - news for France
-    - Italy news
-    - Russia headlines
-    - headlines for Ukraine
-    - Tell me the latest news for Greece.
-    - Tell me some news for Germany.
-    - Tell me top 5 headlines for Portugal.
-    - Bring me some news for United States.
+  - intent: news_custom_location
+    examples: |
+      - news for France
+      - Italy news
+      - Russia headlines
+      - headlines for Ukraine
+      - Tell me the latest news for Greece.
+      - Tell me some news for Germany.
+      - Tell me top 5 headlines for Portugal.
+      - Bring me some news for United States.
