@@ -232,6 +232,7 @@ nlu:
   - intent: news_custom_location
     examples: |
       - news for France
+      - latest news for France
       - Italy news
       - Russia headlines
       - headlines for Ukraine

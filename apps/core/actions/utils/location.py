@@ -2,6 +2,7 @@ import requests
 from timezonefinder import TimezoneFinder
 from ..config import ERROR_MESSAGE
 
+
 def get_city_coordinates(city: str):
     response = requests.get(
         f"https://nominatim.openstreetmap.org/search.php?q={city}&format=jsonv2")
@@ -16,7 +17,8 @@ def get_city_coordinates(city: str):
 
 
 def get_place_from_coords(lat, long):
-    response = requests.get(f'https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={long}&format=json&zoom=10&addressdetails=0&accept-language=en')
+    response = requests.get(
+        f'https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={long}&format=json&zoom=10&addressdetails=0&accept-language=en')
 
     if response.status_code != 200:
         raise ValueError(ERROR_MESSAGE)
@@ -27,7 +29,8 @@ def get_place_from_coords(lat, long):
 
 
 def get_country_from_coords(lat, long):
-    response = requests.get(f'https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={long}&format=json&zoom=3&addressdetails=0&accept-language=en')
+    response = requests.get(
+        f'https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={long}&format=json&zoom=3&addressdetails=0&accept-language=en')
 
     if response.status_code != 200:
         raise ValueError(ERROR_MESSAGE)

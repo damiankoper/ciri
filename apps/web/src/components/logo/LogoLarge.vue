@@ -7,7 +7,7 @@
         color="green"
         :timestamp="DateTime.now().minus({ minutes: 5 })"
       >
-        A helping hand in you everyday life.
+        A helping hand in your everyday life.
       </ChatMessage>
       <ChatMessage side="right" color="red" :timestamp="DateTime.now()">
         Ask a question and find yourself!

@@ -47,7 +47,10 @@
           @click="isSpeechRecognitionEnabled = !isSpeechRecognitionEnabled"
           title="Listen for speech"
         >
-          <div class="pulse" :class="{ 'pulse-on': isListening }"></div>
+          <div
+            class="pulse"
+            :class="{ 'pulse-on': isListening && isSpeechRecognitionSupported }"
+          ></div>
           <i
             v-if="isSpeechRecognitionEnabled && isSpeechRecognitionSupported"
             class="mdi mdi-text-to-speech"

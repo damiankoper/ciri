@@ -40,7 +40,9 @@ const props = defineProps({
 
 const relativeTimestamp = ref(calcRelativeTimestamp());
 function calcRelativeTimestamp() {
-  return props.timestamp.toRelative() || '';
+  return -props.timestamp.diffNow('seconds').seconds > 60
+    ? props.timestamp.toRelative({ unit: ['days', 'hours', 'minutes'] }) || ''
+    : 'lass than a minute ago';
 }
 
 useIntervalFn(() => (relativeTimestamp.value = calcRelativeTimestamp()), 1000, {

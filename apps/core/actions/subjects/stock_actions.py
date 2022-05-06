@@ -25,6 +25,7 @@ class ActionStockPrice(Action):
             if len(entities) == 0:
                 raise TickerNotDetected
 
+            # Lookup ticker, name and currency
             company_name = entities[0]['value']
             response = requests.get(
                 f'https://api.polygon.io/v3/reference/tickers?type=CS&market=stocks&search={company_name}&active=true&limit=1&apiKey={POLYGON_API_KEY}')
@@ -37,22 +38,27 @@ class ActionStockPrice(Action):
             name = response_json['results'][0]['name']
             currency = response_json['results'][0]['currency_name']
 
+            # Lookup price + time
             response = requests.get(
                 f'https://finnhub.io/api/v1/quote?symbol={ticker}&token={FINNHUB_API_KEY}')
             response_json = response.json()
             print(response_json)
 
             price = response_json['c']
-            time = datetime.fromtimestamp(int(response_json['t']))
 
-            response = create_default_json_response(
-                f"{name} {ticker} {price} {currency} {time}")
-            dispatcher.utter_message(json_message=response)
-
-            # TODO - enhance symbol lookup and fallback
+            msg = {}
+            msg['type'] = 'stock'
+            msg['name'] = name
+            msg['price'] = price
+            msg['currency'] = currency
+            msg['time'] = response_json['t']
+            msg['ticker'] = ticker
+            dispatcher.utter_message(json_message=msg)
 
         except TickerNotDetected:
-            dispatcher.utter_message(json_message=ERROR_MESSAGE)
+            dispatcher.utter_message(json_message=create_default_json_response(
+                "The symbol of given stock or currency could not be found. Try to be more specific."
+            ))
 
         return []
 
@@ -64,6 +70,13 @@ class ActionCurrencyPrice(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        entities = tracker.latest_message['entities']
-        # TODO - make it detect only 'MONEY' named entities
-        print(entities)
+
+        # TODO: Opisać problemy z detekcją encji walut, mozliwe rozwiązania:
+        # * lepszy model
+        # * stablicowanie (nazwa, symbol) np (polish zloty, PLN) i fuzzy search
+        #
+        # zbyt złożone na ten zakres
+
+        dispatcher.utter_message(json_message=create_default_json_response(
+            "I'm sorry but I'm not capable of providing currency information now. Try again in the future."
+        ))

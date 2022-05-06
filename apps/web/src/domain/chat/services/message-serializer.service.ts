@@ -6,6 +6,8 @@ import { DefaultMessage } from '../models/default-message.model';
 import { IResponseMessage } from '../interfaces/response-message.interface';
 import { MessageType } from '../enums/message-type.enum';
 import { ErrorMessage } from '../models/error-message.model';
+import { StockMessage } from '../models/stock-message.model';
+import { ArticlesMessage } from '../models/articles-message.model';
 
 export class MessageSerializer implements Serializer<Message[]> {
   read(raw: string): Message[] {
@@ -24,6 +26,10 @@ export class MessageSerializer implements Serializer<Message[]> {
           return plainToInstance(DefaultMessage, m);
         case RenderMethod.ERROR:
           return plainToInstance(ErrorMessage, m);
+        case RenderMethod.STOCK:
+          return plainToInstance(StockMessage, m);
+        case RenderMethod.ARTICLES:
+          return plainToInstance(ArticlesMessage, m);
       }
     });
   }

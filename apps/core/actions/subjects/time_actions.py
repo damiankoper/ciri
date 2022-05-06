@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import pytz
 from datetime import datetime, timedelta, date
 from typing import Any, Text, Dict, List
@@ -10,6 +11,10 @@ from ..utils.datetime import get_relative_time
 from ..utils.common import create_default_json_response
 
 
+class LocationNotProvided(Exception):
+    pass
+
+
 class ActionTimeDefaultLocation(Action):
 
     def name(self) -> Text:
@@ -20,14 +25,27 @@ class ActionTimeDefaultLocation(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         # TODO: Handle null locale metadata, ask about location with saved context
-        metadata = tracker.latest_message.get("metadata")
-        place = get_place_from_coords(**metadata)
+        # TODO: second thought: saved context is optional
 
-        zone_name = get_timezone_from_coords(**metadata)
-        time = datetime.now(pytz.timezone(zone_name)).strftime('%H:%M')
+        try:
+            metadata = tracker.latest_message.get("metadata")
+            if(metadata['lat'] is None or metadata['long'] is None):
+                raise LocationNotProvided()
 
-        dispatcher.utter_message(
-            json_message=create_default_json_response(f'In {place} it is now {time}'))
+            place = get_place_from_coords(**metadata)
+
+            zone_name = get_timezone_from_coords(**metadata)
+            time = datetime.now(pytz.timezone(zone_name)).strftime('%H:%M')
+
+            dispatcher.utter_message(
+                json_message=create_default_json_response(f'In {place} it is now {time}'))
+
+        except ValueError as err:
+            dispatcher.utter_message(json_message=err.args[0])
+
+        except LocationNotProvided as err:
+            dispatcher.utter_message(
+                json_message=create_default_json_response('Location not provided. Make sure to give location permission to your browser.'))
 
         return []
 
