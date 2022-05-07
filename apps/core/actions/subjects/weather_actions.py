@@ -9,7 +9,7 @@ from ..utils.weather import get_forecast
 from ..utils.location import get_city_coordinates, get_place_from_coords, get_timezone_from_coords
 from ..utils.datetime import get_relative_time
 from ..utils.common import create_default_json_response
-from ..config import ERROR_MESSAGE
+from ..config import ERROR_MESSAGE, NO_COORDS_MSG, LocationNotProvided
 
 
 class ActionWeatherDefaultLocationAndTime(Action):
@@ -20,15 +20,26 @@ class ActionWeatherDefaultLocationAndTime(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        metadata = tracker.latest_message.get("metadata")
-        place = get_place_from_coords(**metadata)
+        try:
+            metadata = tracker.latest_message.get("metadata")
+            if(metadata['lat'] is None or metadata['long'] is None):
+                raise LocationNotProvided()
 
-        zone_name = get_timezone_from_coords(**metadata)
-        today = datetime.now(pytz.timezone(zone_name))
+            place = get_place_from_coords(**metadata)
 
-        response = get_forecast(today, place, **metadata)
-        dispatcher.utter_message(
-            json_message=create_default_json_response(response))
+            zone_name = get_timezone_from_coords(**metadata)
+            today = datetime.now(pytz.timezone(zone_name))
+
+            response = get_forecast(today, place, **metadata)
+            dispatcher.utter_message(
+                json_message=create_default_json_response(response))
+
+        except ValueError:
+            dispatcher.utter_message(json_message=ERROR_MESSAGE)
+
+        except LocationNotProvided:
+            dispatcher.utter_message(
+                json_message=create_default_json_response(NO_COORDS_MSG))
 
         return []
 
@@ -43,12 +54,16 @@ class ActionWeatherDefaultLocationRelativeTime(Action):
 
         entities = tracker.latest_message['entities']
         date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
-
         metadata = tracker.latest_message.get("metadata")
+
+        if(metadata['lat'] is None or metadata['long'] is None):
+            dispatcher.utter_message(json_message=create_default_json_response(
+                NO_COORDS_MSG))
+            return []
+
         place = get_place_from_coords(**metadata)
         zone_name = get_timezone_from_coords(**metadata)
         today = datetime.now(pytz.timezone(zone_name))
-
 
         if date_only:
             relative_time = date_only[0]['value'].lower()
@@ -68,8 +83,8 @@ class ActionWeatherDefaultLocationRelativeTime(Action):
 
         try:
             response = get_forecast(searched_date, place, **metadata)
-        except ValueError:
-            dispatcher.utter_message(json_message=ERROR_MESSAGE)
+        except ValueError as err:
+            dispatcher.utter_message(json_message=err.args[0])
             return []
 
         dispatcher.utter_message(
@@ -106,7 +121,7 @@ class ActionWeatherCustomLocationDefaultTime(Action):
         try:
             response = get_forecast(today, city, lat, lon)
         except ValueError as err:
-            dispatcher.utter_message(text=err.args[0])
+            dispatcher.utter_message(json_message=err.args[0])
             return []
 
         dispatcher.utter_message(
@@ -149,7 +164,7 @@ class ActionWeatherCustomLocationRelativeTime(Action):
         try:
             lat, lon = get_city_coordinates(city)
         except ValueError as err:
-            dispatcher.utter_message(text=err.args[0])
+            dispatcher.utter_message(json_message=err.args[0])
             return []
 
         zone_name = get_timezone_from_coords(lat, lon)

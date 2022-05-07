@@ -9,10 +9,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from ..utils.location import get_city_coordinates, get_place_from_coords, get_timezone_from_coords
 from ..utils.datetime import get_relative_time
 from ..utils.common import create_default_json_response
-
-
-class LocationNotProvided(Exception):
-    pass
+from ..config import NO_COORDS_MSG, LocationNotProvided
 
 
 class ActionTimeDefaultLocation(Action):
@@ -42,7 +39,7 @@ class ActionTimeDefaultLocation(Action):
 
         except LocationNotProvided as err:
             dispatcher.utter_message(
-                json_message=create_default_json_response('Location not provided. Make sure to give location permission to your browser or specify your location in question.'))
+                json_message=create_default_json_response(NO_COORDS_MSG))
 
         return []
 
@@ -56,6 +53,12 @@ class ActionDayToday(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         metadata = tracker.latest_message.get("metadata")
+
+        if(metadata['lat'] is None or metadata['long'] is None):
+            dispatcher.utter_message(
+                json_message=create_default_json_response(NO_COORDS_MSG))
+            return []
+
         place = get_place_from_coords(**metadata)
 
         zone_name = get_timezone_from_coords(**metadata)
@@ -77,30 +80,38 @@ class ActionDateRelative(Action):
         entities = tracker.latest_message['entities']
         date_only = list(filter(lambda x: x['entity'] == 'DATE', entities))
 
-        metadata = tracker.latest_message.get("metadata")
-        zone_name = get_timezone_from_coords(**metadata)
-
-        # number of days is always last in entities array
-        if date_only:
-            number_of_days_string = date_only[-1]['value']
-        else:
-            dispatcher.utter_message(json_message=create_default_json_response(
-                "Could not detect the number of days."))
-            return []
-
         try:
+            metadata = tracker.latest_message.get("metadata")
+            if(metadata['lat'] is None or metadata['long'] is None):
+                raise LocationNotProvided()
+
+            zone_name = get_timezone_from_coords(**metadata)
+
+            # number of days is always last in entities array
+            if date_only:
+                number_of_days_string = date_only[-1]['value']
+            else:
+                dispatcher.utter_message(json_message=create_default_json_response(
+                    "Could not detect the number of days."))
+                return []
+
             number_of_days = get_relative_time(number_of_days_string)
+
+
+            today = datetime.now(pytz.timezone(zone_name))
+            day_and_date = (today +
+                            timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
+            response = create_default_json_response(
+                f"It {'will be' if number_of_days > 0 else 'was'} {day_and_date}.")
+            dispatcher.utter_message(json_message=response)
+
         except ValueError as err:
             dispatcher.utter_message(json_message=create_default_json_response(
                 "Could not detect the number of days."))
-            return []
 
-        today = datetime.now(pytz.timezone(zone_name))
-        day_and_date = (today +
-                        timedelta(days=number_of_days)).strftime('%A, %d %B %Y')
-        response = create_default_json_response(
-            f"It {'will be' if number_of_days > 0 else 'was'} {day_and_date}.")
-        dispatcher.utter_message(json_message=response)
+        except LocationNotProvided:
+            dispatcher.utter_message(
+                json_message=create_default_json_response(NO_COORDS_MSG))
 
         return []
 
@@ -114,6 +125,11 @@ class ActionDateAndTime(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         metadata = tracker.latest_message.get("metadata")
+        if(metadata['lat'] is None or metadata['long'] is None):
+            dispatcher.utter_message(
+                json_message=create_default_json_response(NO_COORDS_MSG))
+            return []
+
         place = get_place_from_coords(**metadata)
 
         zone_name = get_timezone_from_coords(**metadata)

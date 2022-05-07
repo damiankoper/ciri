@@ -7,3 +7,8 @@ POLYGON_API_KEY = os.environ.get('POLYGON_API_KEY')
 
 ERROR_MESSAGE = {"type": "error",
                  "message": "Remote source error occured. Check input data"}
+
+NO_COORDS_MSG = 'Location not provided. Make sure to give location permission to your browser or specify your location in question.'
+
+class LocationNotProvided(Exception):
+    pass
