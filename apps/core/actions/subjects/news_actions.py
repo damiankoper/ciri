@@ -61,10 +61,16 @@ class ActionNewsCustomLocation(Action):
             return []
 
         country_code = pycountry.countries.get(name=country)
-        print(country)
+
+        try:
+            code = country_code.alpha_2
+        except AttributeError:
+            dispatcher.utter_message(json_message=create_default_json_response(
+                'Could not detect propper country name. Try other name'))
+            return []
 
         response = requests.get(
-            f'https://newsapi.org/v2/top-headlines?country={country_code.alpha_2}&pageSize=5&page=1&apiKey={NEWS_API_KEY}')
+            f'https://newsapi.org/v2/top-headlines?country={code}&pageSize=5&page=1&apiKey={NEWS_API_KEY}')
         if response.status_code != 200:
             dispatcher.utter_message(json_message=ERROR_MESSAGE)
             return []
@@ -76,7 +82,3 @@ class ActionNewsCustomLocation(Action):
         msg['location'] = country_code.name
         dispatcher.utter_message(json_message=msg)
         return []
-
-        # TODO: pycountry nie wykrywa 'Russia'
-        # TODO: Refaktoryzacja do jednej akcji w zależności od wykrytej lokalizacji z treści (jesli w treści nie ma to fallback do domyślnej)
-        # TODO: fallback, obecnie po execption 'NoneType' object has no attribute 'alpha_2' jest krasz, owinąć wszystko w try...except jak w stock_actions

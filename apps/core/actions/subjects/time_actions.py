@@ -24,9 +24,6 @@ class ActionTimeDefaultLocation(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # TODO: Handle null locale metadata, ask about location with saved context
-        # TODO: second thought: saved context is optional
-
         try:
             metadata = tracker.latest_message.get("metadata")
             if(metadata['lat'] is None or metadata['long'] is None):
@@ -45,7 +42,7 @@ class ActionTimeDefaultLocation(Action):
 
         except LocationNotProvided as err:
             dispatcher.utter_message(
-                json_message=create_default_json_response('Location not provided. Make sure to give location permission to your browser.'))
+                json_message=create_default_json_response('Location not provided. Make sure to give location permission to your browser or specify your location in question.'))
 
         return []
 
