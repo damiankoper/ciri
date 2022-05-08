@@ -30,7 +30,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "parallel": false,
-        "commands": ["git subtree push --prefix dist/web origin gh-pages"]
+        "commands": ["git subtree push --prefix dist/web origin gh-pagessss"]
       }
     }
   },
