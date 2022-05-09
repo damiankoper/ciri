@@ -6,7 +6,7 @@
     "build": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": ["npx vite build --base=/ciri/ --emptyOutDir apps/web"]
+        "commands": ["npx vite build  --emptyOutDir apps/web"]
       }
     },
     "serve": {
@@ -30,7 +30,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "parallel": false,
-        "commands": ["git subtree push --prefix dist/web origin gh-pagessss"]
+        "commands": ["git subtree push --prefix dist/web origin gh-pages"]
       }
     }
   },

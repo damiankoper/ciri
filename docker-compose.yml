@@ -1,5 +1,14 @@
 version: '3'
 services:
+  proxy:
+    image: nginx
+    volumes:
+      - ./config:/etc/nginx/conf.d
+      - ./dist/web:/app
+    ports:
+      - 8090:443
+    restart: unless-stopped
+
   rasa-actions:
     image: kopernick/ciri-core:latest
     command: run actions
@@ -10,6 +19,4 @@ services:
     image: kopernick/ciri-core:latest
     command: run --enable-api --cors '*'
     env_file: .env
-    ports:
-      - 5005:5005
     restart: unless-stopped

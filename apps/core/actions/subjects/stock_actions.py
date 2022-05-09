@@ -23,7 +23,7 @@ class ActionStockPrice(Action):
 
         try:
             if len(entities) == 0:
-                raise TickerNotDetected
+                raise TickerNotDetected()
 
             # Lookup ticker, name and currency
             company_name = entities[0]['value']
@@ -31,8 +31,8 @@ class ActionStockPrice(Action):
                 f'https://api.polygon.io/v3/reference/tickers?type=CS&market=stocks&search={company_name}&active=true&limit=1&apiKey={POLYGON_API_KEY}')
             response_json = response.json()
 
-            if response.status_code != 200 or response_json['count'] == 0:
-                raise TickerNotDetected
+            if response.status_code != 200 or len(response_json['results']) == 0:
+                raise TickerNotDetected()
 
             ticker = response_json['results'][0]['ticker']
             name = response_json['results'][0]['name']

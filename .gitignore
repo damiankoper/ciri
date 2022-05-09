@@ -39,3 +39,7 @@ testem.log
 Thumbs.db
 
 .env
+
+
+*.crt
+*.key
